@@ -1,0 +1,288 @@
+<!-- Header -->
+<header class="shadow-md w-full z-50">
+  <div
+    class="bg-green-800 h-20 text-white max-w-full mx-auto px-4 py-3 flex justify-between items-center flex w-full my-auto"
+  >
+    <img
+      src="https://www.udea.edu.co/wps/wcm/connect/udea/b6192f5d-033b-4424-a675-b7a0f92898ec/white-gov-co.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_L8L8H8C0LODDC0A6SSS2AD2GO4-b6192f5d-033b-4424-a675-b7a0f92898ec-oxj87sO"
+      alt="Clic aquí para ir a la página gov.co"
+      width="100"
+      height="24"
+      class="mx-12"
+    />
+
+    <nav class="space-x-4 text-white my-auto mr-auto ml-8">
+      <a
+        routerLink="/"
+        routerLinkActive="font-semibold"
+        class="hover:underline border-r text-white pr-8 text-lg"
+        >Participa</a
+      >
+      <a
+        routerLink="/about"
+        routerLinkActive="font-semibold"
+        class="hover:underline border-r text-white pr-8 text-lg"
+        >Transparencia</a
+      >
+      <a
+        routerLink="/contact"
+        routerLinkActive="font-semibold"
+        class="hover:underline text-white pr-8 text-lg"
+        >Atención al ciudadano</a
+      >
+    </nav>
+
+    <nav class="space-x-6 text-white my-auto flex mr-12">
+      <i class="material-icons">search</i>
+      <img
+        src="https://www.udea.edu.co/wps/wcm/connect/udea/8f310060-b578-4bae-af16-4f8646a73d3b/en-us.jpg?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_L8L8H8C0LODDC0A6SSS2AD2GO4-8f310060-b578-4bae-af16-4f8646a73d3b-pyuVny4"
+        alt="English"
+        title="English"
+        style="width: 30px; height: 20px"
+      />
+      <img
+        src="https://www.udea.edu.co/wps/wcm/connect/udea/a20e97d1-f358-4a46-88b2-51b8ba59be54/es-co.jpg?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_L8L8H8C0LODDC0A6SSS2AD2GO4-a20e97d1-f358-4a46-88b2-51b8ba59be54-pyuVuzL"
+        alt="Español"
+        title="Español"
+        style="width: 30px; height: 20px"
+      />
+      <span class="material-icons" translate="no"> accessibility </span>
+    </nav>
+  </div>
+  <div
+    class="w-full h-52 bg-white text-black max-w-full mx-auto px-4 py-3 flex justify-between items-center flex w-full my-auto"
+  >
+    <nav
+      class="space-x-4 text-dark my-auto mx-auto w-full flex justify-center content-center"
+    >
+      <img
+        src="https://www.udea.edu.co/wps/wcm/connect/udea/2117e09c-7085-4410-b53b-c8dd24da3da7/logosimbolo-horizontal.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_L8L8H8C0LODDC0A6SSS2AD2GO4-2117e09c-7085-4410-b53b-c8dd24da3da7-plcMekT"
+        alt="Portal Universidad de Antioquia"
+        width="300"
+        height="60"
+      />
+      <a
+        routerLink="/about"
+        routerLinkActive="font-semibold"
+        class="hover:underline px-8 text-lg font-semibold my-auto"
+        >Estudiante</a
+      >
+      <a
+        routerLink="/contact"
+        routerLinkActive="font-semibold"
+        class="hover:underline px-8 text-lg font-semibold my-auto"
+        >Profesor</a
+      >
+      <a
+        routerLink="/"
+        routerLinkActive="font-semibold"
+        class="hover:underline px-8 text-lg font-semibold my-auto"
+        >Empleado</a
+      >
+      <a
+        routerLink="/about"
+        routerLinkActive="font-semibold"
+        class="hover:underline px-8 text-lg font-semibold my-auto"
+        >Egresado</a
+      >
+      <a
+        routerLink="/contact"
+        routerLinkActive="font-semibold"
+        class="hover:underline px-8 text-lg font-semibold my-auto"
+        >Jubilado</a
+      >
+      <img
+        src="https://www.udea.edu.co/wps/wcm/connect/udea/3229e649-1c37-4d6f-9caf-0f807b6805f5/Emisora+UdeA_Logo-Transparente2+%281%29.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_L8L8H8C0LODDC0A6SSS2AD2GO4-3229e649-1c37-4d6f-9caf-0f807b6805f5-pCn1Kru"
+        alt="Emisora UdeA"
+        width="100"
+        height="50"
+      />
+      <button
+        id="radioControl"
+        class="radio-button text-lime-600 flex my-auto"
+        title="Escuchar en vivo"
+      >
+        <span id="playButton" class="material-icons play-button" translate="no"
+          >play_circle_outline</span
+        >
+        <strong class="TextEmisora mb-2 ml-2">EN VIVO</strong>
+      </button>
+      <span class="mdl-button__ripple-container">
+        <span class="mdl-ripple"></span>
+      </span>
+      <button
+        class="bg-yellow-400 text-black rounded rounded-sm shadow-md my-2"
+      >
+        <strong class="mx-16">INGRESAR</strong>
+      </button>
+    </nav>
+  </div>
+  <div
+    class="bg-green-800 h-20 text-white max-w-full mx-auto px-4 py-3 flex justify-between items-center flex w-full my-auto"
+  >
+    <nav
+      class="space-x-4 text-white my-auto mx-auto w-full flex justify-center"
+    >
+      <a
+        routerLink="/"
+        routerLinkActive="font-semibold"
+        class="hover:underline text-white px-8 text-lg"
+        >La UdeA</a
+      >
+      <a
+        routerLink="/about"
+        routerLinkActive="font-semibold"
+        class="hover:underline text-white px-8 text-lg"
+        >Estudia en la UdeA</a
+      >
+      <a
+        routerLink="/contact"
+        routerLinkActive="font-semibold"
+        class="hover:underline text-white px-8 text-lg"
+        >Docencia</a
+      >
+      <a
+        routerLink="/"
+        routerLinkActive="font-semibold"
+        class="hover:underline text-white px-8 text-lg"
+        >Investigación</a
+      >
+      <a
+        routerLink="/about"
+        routerLinkActive="font-semibold"
+        class="hover:underline text-white px-8 text-lg"
+        >Extensión</a
+      >
+      <a
+        routerLink="/contact"
+        routerLinkActive="font-semibold"
+        class="hover:underline text-white px-8 text-lg"
+        >Internacional</a
+      >
+      <a
+        routerLink="/"
+        routerLinkActive="font-semibold"
+        class="hover:underline text-white px-8 text-lg"
+        >Cultura</a
+      >
+      <a
+        routerLink="/about"
+        routerLinkActive="font-semibold"
+        class="hover:underline text-white px-8 text-lg"
+        >Bienestar</a
+      >
+      <a
+        routerLink="/contact"
+        routerLinkActive="font-semibold"
+        class="hover:underline text-white px-8 text-lg"
+        >Unidades académicas</a
+      >
+    </nav>
+  </div>
+</header>
+
+<!-- Contenido principal -->
+<main class="pt-100 pb-16 min-h-1/2 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4">
+    <router-outlet></router-outlet>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-green-800 text-white p-16 px-20 grid grid-cols-4 gap-8">
+  <div class="flex flex-col">
+    <img
+      src="https://www.udea.edu.co/wps/wcm/connect/udea/d2f86f54-2356-4e3a-bf01-1f782a57e48b/logo_udea_white.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_L8L8H8C0LODDC0A6SSS2AD2GO4-d2f86f54-2356-4e3a-bf01-1f782a57e48b-npiL-.L"
+      alt="Portal Universidad de Antioquia"
+      width="300"
+      height="60"
+    />
+    <p class="mt-4 text-lg">
+      NIT 890980040-8 | Recepción correspondencia: Cll. 70 # 52 - 21 | Apartado
+      aéreo 1226 | Dirección: Cll. 67 # 53 - 108 | Medellín - Col |
+      Notificaciones judiciales: notifica.judiciales&#64;udea.edu.co |
+      Radicación PQRS: atencionciudadano&#64;udea.edu.co
+    </p>
+    <p class="mt-4 text-lg">
+      Línea gratuita 01 8000 416384 | Línea anticorrupción (+57-604) 219 5028
+    </p>
+    <p class="mt-4 text-lg">
+      Vigilada Mineducación. Acreditación institucional hasta el 2033 | ©
+      Copyright 2020 Todos los Derechos Reservados
+    </p>
+  </div>
+  <div>
+    <a
+      routerLink="/contact"
+      routerLinkActive="font-semibold"
+      class="hover:underline font-semibold text-white text-lg"
+      >Atención al ciudadano</a
+    >
+    <ul class="text-white">
+      <li class="text-white text-lg">Directorio telefónico</li>
+      <li class="text-white text-lg">Mapa del sitio</li>
+      <li class="text-white text-lg">Normativa</li>
+      <li class="text-white text-lg">Pico y placa en Ciudad Universitaria</li>
+      <li class="text-white text-lg">Preguntas Frecuentes</li>
+      <li class="text-white text-lg">Tarjeta Integrada Personal</li>
+      <li class="text-white text-lg">
+        Transparencia y Acceso a la Información
+      </li>
+      <li class="text-white text-lg">Atención presencial</li>
+      <li class="text-white text-lg">Atención telefónica</li>
+      <li class="text-white text-lg">Atención virtual</li>
+      <li class="text-white text-lg">Notificaciones por aviso</li>
+      <li class="text-white text-lg">Políticas</li>
+      <li class="text-white text-lg">Términos y condiciones de uso</li>
+      <li class="text-white text-lg">Trámites y servicios</li>
+      <li class="text-white text-lg">Ventanilla virtual</li>
+    </ul>
+  </div>
+  <div>
+    <a
+      routerLink="/contact"
+      routerLinkActive="font-semibold"
+      class="hover:underline font-semibold text-white text-lg"
+      >Servicios en linea</a
+    >
+    <ul class="text-white">
+      <li class="text-white">
+        Aspirantes: docente de cátedra o contratación transitoria
+      </li>
+      <li class="text-white text-lg">Campus UdeA</li>
+      <li class="text-white text-lg">Consultar correo electrónico</li>
+      <li class="text-white text-lg">Consultas y elecciones</li>
+      <li class="text-white text-lg">Contratación y convocatorias</li>
+      <li class="text-white text-lg">Generar certificados</li>
+      <li class="text-white text-lg">Iniciar sesión en el portal</li>
+      <li class="text-white text-lg">Obtener/Recuperar contraseña</li>
+      <li class="text-white text-lg">Pago de facturas</li>
+      <li class="text-white text-lg">Registro de usuarios externos</li>
+      <li class="text-white text-lg">Sede electrónica</li>
+      <li class="text-white text-lg">Ude&#64; educación virtual</li>
+      <li class="text-white text-lg">
+        Verificación de diplomas y actas de grado
+      </li>
+    </ul>
+  </div>
+  <div>
+    <a
+      routerLink="/contact"
+      routerLinkActive="font-semibold"
+      class="hover:underlin font-semibold text-white text-lg"
+      >La UdeA nos conecta</a
+    >
+    <ul class="text-white">
+      <li class="text-white text-lg">Medios UdeA</li>
+      <li class="text-white text-lg">Agenda Cultural Alma Máter</li>
+      <li class="text-white text-lg">Editorial Universidad de Antioquia</li>
+      <li class="text-white text-lg">Emisora Cultural UdeA</li>
+      <li class="text-white text-lg">Periódico Alma Mater</li>
+      <li class="text-white text-lg">Revista Debates</li>
+      <li class="text-white text-lg">Revista Experimenta</li>
+      <li class="text-white text-lg">Revista Universidad de Antioquia</li>
+      <li class="text-white text-lg">Sistema de Revistas UdeA</li>
+      <li class="text-white text-lg">UdeA Noticias</li>
+    </ul>
+  </div>
+</footer>
