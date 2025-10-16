@@ -21,4 +21,18 @@ export const routes: Routes = [
         (m) => m.CompromisosComponent
       ),
   },
+  {
+    path: 'participantes',
+    loadComponent: () =>
+      import('./pages/participantes/participantes.component').then(
+        (m) => m.ParticipantesComponent
+      ),
+  },
+  {
+    path: 'empleados-siiu',
+    loadComponent: () =>
+      import('./pages/empleados-siiu/empleados-siiu.component').then(
+        (m) => m.EmpleadosSIIUComponent
+      ),
+  },
 ];
