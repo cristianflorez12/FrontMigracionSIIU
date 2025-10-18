@@ -1,8 +1,20 @@
 import { filter, fromEvent, takeUntil } from 'rxjs';
 
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { OverlayModule, OverlayRef } from '@angular/cdk/overlay';
-import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal, PortalModule, TemplatePortal } from '@angular/cdk/portal';
+import {
+  BasePortalOutlet,
+  CdkPortalOutlet,
+  ComponentPortal,
+  PortalModule,
+  TemplatePortal,
+} from '@angular/cdk/portal';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -54,55 +66,78 @@ export class ZardDialogOptions<T, U> {
   selector: 'z-dialog',
   exportAs: 'zDialog',
   imports: [OverlayModule, PortalModule, ZardButtonComponent],
+  standalone: true,
   template: `
     @if (config.zClosable || config.zClosable === undefined) {
-      <button data-testid="z-close-header-button" z-button zType="ghost" zSize="sm" class="absolute right-1 top-1" (click)="onCloseClick()">
-        <i class="icon-x text-sm"></i>
-      </button>
-    }
+    <button
+      data-testid="z-close-header-button"
+      z-button
+      zType="ghost"
+      zSize="sm"
+      class="absolute right-1 top-1"
+      (click)="onCloseClick()"
+    >
+      <i class="icon-x text-sm"></i>
+    </button>
+    } @if (config.zTitle || config.zDescription) {
+    <header class="flex flex-col space-y-1.5 text-center sm:text-left">
+      @if (config.zTitle) {
+      <h4
+        data-testid="z-title"
+        class="text-lg font-semibold leading-none tracking-tight"
+      >
+        {{ config.zTitle }}
+      </h4>
 
-    @if (config.zTitle || config.zDescription) {
-      <header class="flex flex-col space-y-1.5 text-center sm:text-left">
-        @if (config.zTitle) {
-          <h4 data-testid="z-title" class="text-lg font-semibold leading-none tracking-tight">{{ config.zTitle }}</h4>
-
-          @if (config.zDescription) {
-            <p data-testid="z-description" class="text-sm text-muted-foreground">{{ config.zDescription }}</p>
-          }
-        }
-      </header>
+      @if (config.zDescription) {
+      <p data-testid="z-description" class="text-sm text-muted-foreground">
+        {{ config.zDescription }}
+      </p>
+      } }
+    </header>
     }
 
     <main class="flex flex-col space-y-4">
       <ng-template cdkPortalOutlet></ng-template>
 
       @if (isStringContent) {
-        <div data-testid="z-content" [innerHTML]="config.zContent"></div>
+      <div data-testid="z-content" [innerHTML]="config.zContent"></div>
       }
     </main>
 
     @if (!config.zHideFooter) {
-      <footer class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-0 sm:space-x-2">
-        @if (config.zCancelText !== null) {
-          <button data-testid="z-cancel-button" z-button zType="outline" (click)="onCloseClick()">
-            @if (config.zCancelIcon) {
-              <i class="icon-{{ config.zCancelIcon }}"></i>
-            }
-
-            {{ config.zCancelText || 'Cancel' }}
-          </button>
+    <footer
+      class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-0 sm:space-x-2"
+    >
+      @if (config.zCancelText !== null) {
+      <button
+        data-testid="z-cancel-button"
+        z-button
+        zType="outline"
+        (click)="onCloseClick()"
+      >
+        @if (config.zCancelIcon) {
+        <i class="icon-{{ config.zCancelIcon }}"></i>
         }
 
-        @if (config.zOkText !== null) {
-          <button data-testid="z-ok-button" z-button [zType]="config.zOkDestructive ? 'destructive' : 'default'" [disabled]="config.zOkDisabled" (click)="onOkClick()">
-            @if (config.zOkIcon) {
-              <i class="icon-{{ config.zOkIcon }}"></i>
-            }
-
-            {{ config.zOkText || 'OK' }}
-          </button>
+        {{ config.zCancelText || 'Cancel' }}
+      </button>
+      } @if (config.zOkText !== null) {
+      <button
+        data-testid="z-ok-button"
+        z-button
+        [zType]="config.zOkDestructive ? 'destructive' : 'default'"
+        [disabled]="config.zOkDisabled"
+        (click)="onOkClick()"
+      >
+        @if (config.zOkIcon) {
+        <i class="icon-{{ config.zOkIcon }}"></i>
         }
-      </footer>
+
+        {{ config.zOkText || 'OK' }}
+      </button>
+      }
+    </footer>
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -125,7 +160,9 @@ export class ZardDialogComponent<T, U> extends BasePortalOutlet {
   private readonly overlayRef = inject(OverlayRef);
   protected readonly config = inject(ZardDialogOptions<T, U>);
 
-  protected readonly classes = computed(() => mergeClasses(dialogVariants(), this.config.zCustomClasses));
+  protected readonly classes = computed(() =>
+    mergeClasses(dialogVariants(), this.config.zCustomClasses)
+  );
   public dialogRef?: ZardDialogRef<T>;
 
   protected readonly isStringContent = typeof this.config.zContent === 'string';
@@ -146,14 +183,18 @@ export class ZardDialogComponent<T, U> extends BasePortalOutlet {
 
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
     if (this.portalOutlet()?.hasAttached()) {
-      throw Error('Attempting to attach modal content after content is already attached');
+      throw Error(
+        'Attempting to attach modal content after content is already attached'
+      );
     }
     return this.portalOutlet()?.attachComponentPortal(portal);
   }
 
   attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
     if (this.portalOutlet()?.hasAttached()) {
-      throw Error('Attempting to attach modal content after content is already attached');
+      throw Error(
+        'Attempting to attach modal content after content is already attached'
+      );
     }
 
     return this.portalOutlet()?.attachTemplatePortal(portal);
@@ -169,19 +210,26 @@ export class ZardDialogComponent<T, U> extends BasePortalOutlet {
 
   overlayClickOutside() {
     return fromEvent<MouseEvent>(document, 'click').pipe(
-      filter(event => {
+      filter((event) => {
         const clickTarget = event.target as HTMLElement;
         const hasNotOrigin = clickTarget !== this.host.nativeElement;
-        const hasNotOverlay = !!this.overlayRef && this.overlayRef.overlayElement.contains(clickTarget) === false;
+        const hasNotOverlay =
+          !!this.overlayRef &&
+          this.overlayRef.overlayElement.contains(clickTarget) === false;
         return hasNotOrigin && hasNotOverlay;
       }),
-      takeUntil(this.overlayRef.detachments()),
+      takeUntil(this.overlayRef.detachments())
     );
   }
 }
 
 @NgModule({
-  imports: [ZardButtonComponent, ZardDialogComponent, OverlayModule, PortalModule],
+  imports: [
+    ZardButtonComponent,
+    ZardDialogComponent,
+    OverlayModule,
+    PortalModule,
+  ],
   providers: [ZardDialogService],
 })
 export class ZardDialogModule {}

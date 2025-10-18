@@ -10,6 +10,7 @@
           zShape="square"
           zSize="lg"
           class="bg-sky-300 w-60 h-12 mr-4 text-start flex p-0 m-0 justify-between shadow-md text-center"
+          (click)="toggleEmpleado()"
         >
           <p
             class="w-full mt-4 font-bold text-sky-900 text-nowrap align-middle"
@@ -133,13 +134,139 @@
       </svg>
       <z-alert
         zTitle=""
-        zDescription="Edite el compromiso para agregar la fecha estimada de cumplimiento y las notas correspondientes"
+        zDescription="Esta opción le permite agregar empleados al SIIUy definir su rol para el sistema"
         zType="warning"
         zAppearance="outline"
-        class="py-0 pl-20 h-20"
+        class="py-auto pl-20 h-20"
       />
     </div>
   </div>
+  @if(showEmpleado) {
+  <div class="m-4 p-4 border">
+    <div class="w-full pt-4 pb-8 border-b flex">
+      <div>
+        <div class="relative bg-gray-100 !w-60">
+          <label
+            for="identificacion"
+            class="absolute left-8 top-1 !z-99 text-xs !text-gray-600"
+            >Identificación</label
+          >
+          <input
+            z-input
+            zSize="lg"
+            id="identificacion"
+            class="h-14 border-none rounded-none shadow-md !w-60 !z-1 !-text-bottom bg-gray-100"
+          />
+        </div>
+      </div>
+      <div class="ml-4">
+        <div class="relative bg-gray-100 !w-60">
+          <label
+            for="nombre"
+            class="absolute left-8 top-1 !z-99 text-xs !text-gray-600"
+            >Nombre</label
+          >
+          <input
+            z-input
+            zSize="lg"
+            id="nombre"
+            class="h-14 border-none rounded-none shadow-md !w-60 !z-1 !-text-bottom bg-gray-100"
+          />
+        </div>
+      </div>
+      <div class="ml-4">
+        <div class="relative bg-gray-100 !w-60">
+          <label
+            for="apellido"
+            class="absolute left-8 top-1 !z-99 text-xs !text-gray-600"
+            >Apellido</label
+          >
+          <input
+            z-input
+            zSize="lg"
+            id="apellido"
+            class="h-14 border-none rounded-none shadow-md !w-60 !z-1 !-text-bottom bg-gray-100"
+          />
+        </div>
+      </div>
+      <div>
+        <button
+          z-button
+          zShape="square"
+          zSize="lg"
+          class="bg-lime-200 w-40 mr-4 text-start flex p-0 m-0 ml-8 justify-between shadow-md"
+        >
+          <p class="pl-8 font-bold text-lime-600 mt-3">BUSCAR</p>
+          <div
+            class="p-0 m-0 bg-lime-600 text-white w-10 h-10 text-center flex"
+          >
+            <svg
+              width="40px"
+              height="40px"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="ml-1 mt-1"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                  stroke="#ffffff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </g>
+            </svg>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="my-4">
+      <p class="text-xl mb-4">Resultados (1)</p>
+      <div class="min-h-80 w-64 border shadow-lg py-4">
+        <div class="ml-4 mb-8">
+          <p class="font-semibold text-base">Nombre del empleado</p>
+          <p class="text-sm text-gray-500">Identificación: 000000</p>
+        </div>
+        <div class="ml-12 my-2">
+          <p class="text-sm text-gray-500">Dirección</p>
+          <p class="text-base">Valor dirección</p>
+        </div>
+        <div class="ml-12 my-2">
+          <p class="text-sm text-gray-500">Correo</p>
+          <p class="text-base">Valor correo</p>
+        </div>
+        <div class="ml-12 my-2">
+          <p class="text-sm text-gray-500">Teléfono</p>
+          <p class="text-base">5555555</p>
+        </div>
+        <div class="ml-12 my-2">
+          <p class="text-sm text-gray-500">Celular</p>
+          <p class="text-base">3100000000</p>
+        </div>
+        <button
+          z-button
+          zShape="square"
+          zSize="lg"
+          class="bg-sky-300 w-28 h-10 mx-auto text-start flex p-0 m-0 justify-between shadow-md text-center"
+        >
+          <p
+            class="w-full mt-2 font-bold text-sky-900 text-nowrap align-middle"
+          >
+            SELECCIONR
+          </p>
+        </button>
+      </div>
+    </div>
+  </div>
+  }
   <div class="border border-1 m-4 text-gray-500">
     <div class="h-16 ml-24 pt-6">Nombre</div>
     <div class="flex bg-gray-200 h-12 pt-4">

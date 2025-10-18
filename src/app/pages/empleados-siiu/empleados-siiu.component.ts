@@ -20,4 +20,10 @@ import { ZardSelectComponent } from '../../shared/components/select/select.compo
   templateUrl: './empleados-siiu.component.html',
   styleUrl: './empleados-siiu.component.scss',
 })
-export class EmpleadosSIIUComponent {}
+export class EmpleadosSIIUComponent {
+  showEmpleado = false;
+
+  toggleEmpleado(): void {
+    this.showEmpleado = !this.showEmpleado;
+  }
+}
