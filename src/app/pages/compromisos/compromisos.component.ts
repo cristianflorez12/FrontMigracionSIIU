@@ -1,52 +1,44 @@
 import { Component } from '@angular/core';
-import {
-  ZardTabComponent,
-  ZardTabGroupComponent,
-} from '../../shared/components/tabs/tabs.component';
-import { ZardButtonComponent } from '../../shared/components/button/button.component';
-import { ZardSelectItemComponent } from '../../shared/components/select/select-item.component';
-import { ZardSelectComponent } from '../../shared/components/select/select.component';
-import { ZardAccordionComponent } from '../../shared/components/accordion/accordion.component';
-import { ZardAccordionItemComponent } from '../../shared/components/accordion/accordion-item.component';
-import { ZardDividerComponent } from '../../shared/components/divider/divider.component';
-import { ZardMenuModule } from '../../shared/components/menu/menu.module';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
-import { ZardInputDirective } from '../../shared/components/input/input.directive';
-import { ZardTableComponent } from '../../shared/components/table/table.component';
 
 @Component({
   selector: 'app-compromisos',
   standalone: true,
   imports: [
-    ZardTabComponent,
-    ZardTabGroupComponent,
-    ZardButtonComponent,
-    ZardSelectComponent,
-    ZardSelectItemComponent,
-    ZardAccordionComponent,
-    ZardAccordionItemComponent,
-    ZardDividerComponent,
-    ZardMenuModule,
+    MatTabsModule,
+    MatExpansionModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
     ZardAlertComponent,
-    ZardInputDirective,
-    ZardTableComponent,
   ],
   templateUrl: './compromisos.component.html',
   styleUrl: './compromisos.component.scss',
 })
 export class CompromisosComponent {
-  compromisos = [
+  displayedColumns: string[] = ['descripcion', 'acciones', 'notas'];
+  dataSource: object[] = [
     {
       compromiso: 'Compromiso 1',
       descripcion: 'Descripción del compromiso 1',
+      notas: 'Notas del compromiso 1',
     },
     {
       compromiso: 'Compromiso 2',
       descripcion: 'Descripción del compromiso 2',
+      notas: 'Notas del compromiso 2',
     },
     {
       compromiso: 'Compromiso 3',
       descripcion: 'Descripción del compromiso 3',
+      notas: 'Notas del compromiso 3',
     },
   ];
 }

@@ -1,33 +1,29 @@
 import { Component } from '@angular/core';
-import {
-  ZardTabComponent,
-  ZardTabGroupComponent,
-} from '../../shared/components/tabs/tabs.component';
-import { ZardButtonComponent } from '../../shared/components/button/button.component';
-import { ZardSelectItemComponent } from '../../shared/components/select/select-item.component';
-import { ZardSelectComponent } from '../../shared/components/select/select.component';
-import { ZardAccordionComponent } from '../../shared/components/accordion/accordion.component';
-import { ZardAccordionItemComponent } from '../../shared/components/accordion/accordion-item.component';
-import { ZardDividerComponent } from '../../shared/components/divider/divider.component';
-import { ZardMenuModule } from '../../shared/components/menu/menu.module';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
-import { ZardInputDirective } from '../../shared/components/input/input.directive';
 
 @Component({
   selector: 'app-etapas',
   standalone: true,
   imports: [
-    ZardTabComponent,
-    ZardTabGroupComponent,
-    ZardButtonComponent,
-    ZardSelectComponent,
-    ZardSelectItemComponent,
-    ZardAccordionComponent,
-    ZardAccordionItemComponent,
-    ZardDividerComponent,
-    ZardMenuModule,
     ZardAlertComponent,
-    ZardInputDirective,
+    FormsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatTabsModule,
+    MatExpansionModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   templateUrl: './etapas.component.html',
   styleUrl: './etapas.component.scss',

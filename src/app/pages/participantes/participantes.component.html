@@ -1,6 +1,6 @@
 <div class="w-full h-full mt-20">
-  <z-tab-group>
-    <z-tab class="bg-green-500" label="Cambiar participante NN">
+  <mat-tab-group>
+    <mat-tab label="Cambiar participante NN">
       <div>
         <div class="grid grid-cols-2 gap-4">
           <div class="flex my-20">
@@ -11,7 +11,7 @@
                 zSize="lg"
                 class="bg-lime-200 w-40 mr-4 text-start flex p-0 m-0 justify-between shadow-md"
               >
-                <p class="pl-8 font-bold text-lime-600">GUARDAR</p>
+                <p class="pl-8 font-bold text-lime-600 mt-3">GUARDAR</p>
                 <div
                   class="p-0 m-0 bg-lime-600 text-white w-10 h-10 text-center flex"
                 >
@@ -163,119 +163,79 @@
         </div>
         <div>
           <div class="p-8 w-full">
-            <table z-table>
-              <thead class="bg-gray-100">
-                <tr>
-                  <th class="w-20"></th>
-                  <th>Nombre</th>
-                  <th>Grupo de investigación</th>
-                  <th>Rol en proyecto/Vinculo</th>
-                  <th>Dedicación</th>
-                  <th>Programa académico apoyado/Porcentaje</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (participante of participantes; track participante.id) {
-                <tr>
-                  <td
-                    class="text-center justify-center flex cursor-pointer w-16 !pl-4 py-0 h-8"
-                  >
-                    <svg
-                      width="64px"
-                      height="64px"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                      <g
-                        id="SVGRepo_tracerCarrier"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></g>
-                      <g id="SVGRepo_iconCarrier">
-                        <rect width="24" height="24" fill="white"></rect>
-                        <path
-                          d="M12 6V18"
-                          stroke="#000000"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></path>
-                        <path
-                          d="M6 12H18"
-                          stroke="#000000"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></path>
-                      </g>
-                    </svg>
-                  </td>
-                  <td class="font-medium">{{ participante.nombre }}</td>
-                  <td>{{ participante.grupoInvestigacion }}</td>
-                  <td>{{ participante.rolProyecto }}</td>
-                  <td>{{ participante.dedicacion }}</td>
-                  <td>{{ participante.programaApoyado }}</td>
-                  <td
-                    class="text-center justify-center flex cursor-pointer h-full"
-                  >
-                    <div class="my-auto">
-                      <button
-                        z-button
-                        zType="ghost"
-                        z-menu
-                        zTrigger="click"
-                        [zMenuTriggerFor]="productsMenu"
-                      >
-                        <svg
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                          <g
-                            id="SVGRepo_tracerCarrier"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          ></g>
-                          <g id="SVGRepo_iconCarrier">
-                            <path
-                              d="M4 8C4 9.10457 3.10457 10 2 10C0.895431 10 0 9.10457 0 8C0 6.89543 0.895431 6 2 6C3.10457 6 4 6.89543 4 8Z"
-                              fill="#000000"
-                            ></path>
-                            <path
-                              d="M10 8C10 9.10457 9.10457 10 8 10C6.89543 10 6 9.10457 6 8C6 6.89543 6.89543 6 8 6C9.10457 6 10 6.89543 10 8Z"
-                              fill="#000000"
-                            ></path>
-                            <path
-                              d="M14 10C15.1046 10 16 9.10457 16 8C16 6.89543 15.1046 6 14 6C12.8954 6 12 6.89543 12 8C12 9.10457 12.8954 10 14 10Z"
-                              fill="#000000"
-                            ></path>
-                          </g>
-                        </svg>
-                      </button>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+              <ng-container matColumnDef="empty">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">+</td>
+              </ng-container>
 
-                      <ng-template #productsMenu>
-                        <div
-                          z-menu-content
-                          class="w-48 bg-white shadow-lg !text-gray-800"
-                        >
-                          <button z-menu-item>Editar</button>
-                          <button z-menu-item>Eliminar</button>
-                        </div>
-                      </ng-template>
-                    </div>
-                  </td>
-                </tr>
-                }
-              </tbody>
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef>Nombe</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.nombre }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="grupoInvestigacion">
+                <th mat-header-cell *matHeaderCellDef>
+                  Grupo de investigación
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.grupoInvestigacion }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="rol">
+                <th mat-header-cell *matHeaderCellDef>
+                  Rol en proyecto/Vinculo
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element.rol }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="dedicacion">
+                <th mat-header-cell *matHeaderCellDef>Dedicación</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.dedicacion }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="programaApoyado">
+                <th mat-header-cell *matHeaderCellDef>
+                  Programa académico apoyado/Porcentaje
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.programaApoyado }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let element">
+                  <button
+                    matIconButton
+                    [matMenuTriggerFor]="menu"
+                    aria-label="Example icon-button with a menu"
+                  >
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                      <span>Editar</span>
+                    </button>
+                    <button mat-menu-item>
+                      <span>Eliminar</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
           </div>
         </div>
       </div>
-    </z-tab>
-    <z-tab class="bg-green-500" label="Actualizar participante"
-      >Actualizar participante</z-tab
-    >
-  </z-tab-group>
+    </mat-tab>
+    <mat-tab label="Actualizar participante"></mat-tab>
+  </mat-tab-group>
 </div>

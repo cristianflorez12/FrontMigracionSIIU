@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
-import {
-  ZardTabComponent,
-  ZardTabGroupComponent,
-} from '../../shared/components/tabs/tabs.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDividerModule } from '@angular/material/divider';
 import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
-import { ZardSelectItemComponent } from '../../shared/components/select/select-item.component';
-import { ZardSelectComponent } from '../../shared/components/select/select.component';
 
 @Component({
   selector: 'app-empleados-siiu',
   standalone: true,
   imports: [
-    ZardTabComponent,
-    ZardTabGroupComponent,
     ZardAlertComponent,
-    ZardSelectItemComponent,
-    ZardSelectComponent,
+    MatTabsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatDividerModule,
   ],
   templateUrl: './empleados-siiu.component.html',
   styleUrl: './empleados-siiu.component.scss',
