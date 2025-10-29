@@ -181,7 +181,11 @@
   </div>
 </header>
 
-<div class="stepper-container w-4/5 mx-auto pt-12" style="position: relative">
+<div
+  class="stepper-container w-4/5 mx-auto py-16"
+  style="position: relative; overflow: visible"
+  *ngIf="showStepper"
+>
   <!-- Navigation buttons -->
   <mat-stepper headerPosition="bottom" #stepper class="custom-stepper">
     <mat-step>

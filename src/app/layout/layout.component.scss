@@ -4,7 +4,17 @@
 
 ::ng-deep .mat-step-icon {
   transform: scale(1.5);
-  margin: 0 12px !important;
+  margin: 12px !important;
+}
+
+::ng-deep .mat-step-header {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+::ng-deep .mat-stepper-horizontal {
+  padding-top: 16px !important;
+  overflow: visible !important;
 }
 
 ::ng-deep .mat-step-label {
