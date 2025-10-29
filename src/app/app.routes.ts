@@ -34,4 +34,11 @@ export const routes: Routes = [
         (m) => m.EmpleadosSIIUComponent
       ),
   },
+  {
+    path: 'inicio-formal',
+    loadComponent: () =>
+      import('./pages/inicio-formal/inicio-formal.component').then(
+        (m) => m.InicioFormalComponent
+      ),
+  },
 ];

@@ -181,6 +181,53 @@
   </div>
 </header>
 
+<div class="stepper-container w-4/5 mx-auto pt-12" style="position: relative">
+  <!-- Navigation buttons -->
+  <mat-stepper headerPosition="bottom" #stepper class="custom-stepper">
+    <mat-step>
+      <ng-template matStepLabel>
+        <a href="/inicio-formal" class="step-link">Información general</a>
+      </ng-template>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>
+        <a href="/participantes" class="step-link">Participantes</a>
+      </ng-template>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>
+        <a href="/compromisos" class="step-link">Compromisos</a>
+      </ng-template>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>
+        <a href="/etapas" class="step-link">Etapas</a>
+      </ng-template>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>
+        <a href="/step5" class="step-link">Generar acta de inicio</a>
+      </ng-template>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>
+        <a href="/step6" class="step-link">Documento Soporte</a>
+      </ng-template>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>
+        <a href="/step7" class="step-link">Cerrar inicio formal</a>
+      </ng-template>
+    </mat-step>
+  </mat-stepper>
+</div>
+
 <!-- Contenido principal -->
 <main class="pt-100 pb-16 min-h-1/2 bg-gray-50">
   <div class="min-w-7xl mx-auto px-20">

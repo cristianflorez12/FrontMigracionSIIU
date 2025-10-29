@@ -1,6 +1,10 @@
 <div class="w-full h-full mt-20 flex">
   <div class="w-2/6 h- pr-4">
-    <form class="filtrar">
+    <form
+      [formGroup]="proyectoForm"
+      (ngSubmit)="onSubmit()"
+      class="p-4 max-w-md mx-auto flex flex-col gap-4 filtrar"
+    >
       <p class="text-lg text-lime-700 text-semibold">Seguimiento a proyectos</p>
       <div class="my-4 relative">
         <svg
@@ -125,11 +129,15 @@
       <div class="mt-8">
         <mat-form-field class="w-1/2">
           <mat-label>Código proyecto</mat-label>
-          <input matInput placeholder="Codigo proyecto" />
+          <input
+            matInput
+            placeholder="Codigo proyecto"
+            formControlName="codigoProyecto"
+          />
         </mat-form-field>
         <mat-form-field class="w-full">
           <mat-label>Centro de gestión</mat-label>
-          <select matNativeControl required>
+          <select matNativeControl required formControlName="centroGestion">
             <option value="centro1">Centro 1</option>
             <option value="centro2">Centro 2</option>
             <option value="centro3">Centro 3</option>
@@ -138,7 +146,7 @@
         </mat-form-field>
         <mat-form-field class="w-full">
           <mat-label>Estado</mat-label>
-          <select matNativeControl required>
+          <select matNativeControl formControlName="estado">
             <option value="estado1">Estado 1</option>
             <option value="estado2">Estado 2</option>
             <option value="estado3">Estado 3</option>
@@ -147,7 +155,7 @@
         </mat-form-field>
         <mat-form-field class="w-full">
           <mat-label>Convocatoria</mat-label>
-          <select matNativeControl required>
+          <select matNativeControl formControlName="convocatoria">
             <option value="convocatoria1">Convocatoria 1</option>
             <option value="convocatoria2">Convocatoria 2</option>
             <option value="convocatoria3">Convocatoria 3</option>
@@ -155,7 +163,7 @@
         </mat-form-field>
         <mat-form-field class="w-full">
           <mat-label>Proceso de selección</mat-label>
-          <select matNativeControl required>
+          <select matNativeControl formControlName="procesoSeleccion">
             <option value="proceso1">Proceso 1</option>
             <option value="proceso2">Proceso 2</option>
             <option value="proceso3">Proceso 3</option>
@@ -163,7 +171,7 @@
         </mat-form-field>
         <mat-form-field class="w-full">
           <mat-label>Tipo de proyecto</mat-label>
-          <select matNativeControl required>
+          <select matNativeControl formControlName="tipoProyecto">
             <option value="tipo1">Tipo 1</option>
             <option value="tipo2">Tipo 2</option>
             <option value="tipo3">Tipo 3</option>
@@ -176,14 +184,18 @@
           zShape="square"
           zSize="lg"
           class="bg-white w-40 mr-4 text-start flex p-0 m-0 ml-8 justify-between shadow-md border"
+          type="button"
+          (click)="onReset()"
         >
           <p class="pl-6 font-bold text-black mt-3">LIMPIAR FILTROS</p>
         </button>
         <button
+          mat-raised-button
           z-button
           zShape="square"
           zSize="lg"
           class="bg-lime-200 w-40 mr-4 text-start flex p-0 m-0 ml-8 justify-between shadow-md"
+          type="submit"
         >
           <p class="pl-8 font-bold text-lime-600 mt-3">CONSULTAR</p>
           <div
@@ -297,7 +309,9 @@
           >
             Codigo
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.codigo }}</td>
+          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+            {{ element.codigo }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="proyecto">
@@ -308,7 +322,9 @@
           >
             Proyecto
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.proyecto }}</td>
+          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+            {{ element.proyecto }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="estado">
@@ -319,7 +335,9 @@
           >
             Estado
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.estado }}</td>
+          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+            {{ element.estado }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="nivel">
@@ -330,7 +348,9 @@
           >
             Nivel
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.nivel }}</td>
+          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+            {{ element.nivel }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="convocatoria">
@@ -341,7 +361,9 @@
           >
             Convocatoria/Proceso de selección
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.convocatoria }}</td>
+          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+            {{ element.convocatoria }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="responsable">
@@ -352,7 +374,9 @@
           >
             Responsable
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.responsable }}</td>
+          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+            {{ element.responsable }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="ipCoordinador">
@@ -363,7 +387,7 @@
           >
             IP o coordinador
           </th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
             {{ element.ipCoordinador }}
           </td>
         </ng-container>
@@ -376,7 +400,9 @@
           >
             Tipo proyecto
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.tipoProyecto }}</td>
+          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+            {{ element.tipoProyecto }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="acciones">

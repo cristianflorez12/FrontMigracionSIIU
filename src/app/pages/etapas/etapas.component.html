@@ -9,6 +9,7 @@
               zShape="square"
               zSize="lg"
               class="bg-sky-200 w-60 mr-4 text-start flex p-0 m-0 justify-between mb-10 shadow-md"
+              (click)="agregarEtapa()"
             >
               <p class="pl-8 font-bold text-sky-700 mt-3">AGREGAR ETAPA</p>
               <div
@@ -54,6 +55,7 @@
               zShape="square"
               zSize="lg"
               class="bg-lime-200 w-40 mr-4 text-start flex p-0 m-0 justify-between shadow-md"
+              (click)="onSubmit()"
             >
               <p class="pl-8 font-bold text-lime-600 mt-3">GUARDAR</p>
               <div
@@ -209,7 +211,7 @@
   </mat-tab-group>
 
   <mat-accordion class="my-8">
-    @for (etapa of etapas; track etapa.value) {
+    @for (etapa of etapasArray.controls; track $index) {
     <mat-expansion-panel>
       <mat-expansion-panel-header class="!h-16">
         <mat-panel-title>
@@ -225,7 +227,7 @@
               <span>Editar</span>
             </button>
           </mat-menu>
-          {{ etapa.etapa }}
+          {{ etapa.get("etapa")?.value || "Sin título" }}
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="p-20 pb-8 text-green-700 px-40 mx-auto w-full flex flex-col">
@@ -235,11 +237,19 @@
         <div class="flex gap-4 mb-4 w-full">
           <mat-form-field class="w-1/2">
             <mat-label>Etapa</mat-label>
-            <input matInput placeholder="Etapa" />
+            <input
+              matInput
+              placeholder="Etapa"
+              [formControl]="$any(etapa.get('etapa'))"
+            />
           </mat-form-field>
           <mat-form-field class="w-1/2">
             <mat-label>Descripcion</mat-label>
-            <input matInput placeholder="Descripcion" />
+            <input
+              matInput
+              placeholder="Descripcion"
+              [formControl]="$any(etapa.get('descripcion'))"
+            />
           </mat-form-field>
         </div>
         <z-alert
@@ -252,11 +262,19 @@
         <div class="flex gap-4 mb-4 w-full">
           <mat-form-field class="w-1/2">
             <mat-label>Duración</mat-label>
-            <input matInput placeholder="Duración" />
+            <input
+              matInput
+              placeholder="Duración"
+              [formControl]="$any(etapa.get('duracion'))"
+            />
           </mat-form-field>
           <mat-form-field class="w-1/2">
             <mat-label>Ejecución Presupuestal</mat-label>
-            <select matNativeControl required>
+            <select
+              matNativeControl
+              required
+              [formControl]="$any(etapa.get('ejecucionPresupuestal'))"
+            >
               <option value="si">Si</option>
               <option value="no">No</option>
             </select>
@@ -265,11 +283,19 @@
         <div class="flex gap-4 mb-4 w-full">
           <mat-form-field class="w-1/2">
             <mat-label>Fecha Inicio</mat-label>
-            <input matInput type="date" />
+            <input
+              matInput
+              type="date"
+              [formControl]="$any(etapa.get('fechaInicio'))"
+            />
           </mat-form-field>
           <mat-form-field class="w-1/2">
             <mat-label>Fecha Fin</mat-label>
-            <input matInput type="date" />
+            <input
+              matInput
+              type="date"
+              [formControl]="$any(etapa.get('fechaFin'))"
+            />
           </mat-form-field>
         </div>
       </div>
