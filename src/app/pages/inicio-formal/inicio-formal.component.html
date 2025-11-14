@@ -42,7 +42,9 @@
         <div class="flex gap-4">
           <div class="w-1/2 bg-blue-300 px-4 h-12 flex">
             <p class="my-auto text-blue-700">
-              Requiere descargar documento de aprobación
+              <mat-slide-toggle labelPosition="before"
+                >Requiere descargar documento de aprobación</mat-slide-toggle
+              >
             </p>
           </div>
           <div class="w-1/2 bg-gray-200 px-4 h-12 flex">
@@ -54,7 +56,8 @@
       </div>
       <div class="flex gap-4 mb-4 mt-40 w-full">
         <div class="w-3/5 border h-40">
-          <div class="h-1/2 pl-28 pt-2">
+          <div class="h-1/2 pl-8 pt-2 flex">
+            <img src="/user.png" alt="User bubble" class="w-16 h-16 mb-2" />
             <p>Centro administrativo</p>
           </div>
           <div class="h-1/2 bg-gray-200 pl-8 flex flex-col">

@@ -13,6 +13,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-inicio-formal',
@@ -26,6 +27,7 @@ import { CommonModule } from '@angular/common';
     MatTableModule,
     ReactiveFormsModule,
     CommonModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './inicio-formal.component.html',
   styleUrls: ['./inicio-formal.component.scss'],
