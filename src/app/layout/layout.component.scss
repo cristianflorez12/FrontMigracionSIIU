@@ -10,6 +10,8 @@
 ::ng-deep .mat-step-header {
   padding-top: 8px !important;
   padding-bottom: 8px !important;
+  overflow: visible !important;
+  text-align: center !important;
 }
 
 ::ng-deep .mat-stepper-horizontal {
@@ -37,4 +39,20 @@
 
 .custom-stepper {
   margin: 0 60px;
+}
+
+.custom-stepper ::ng-deep .mat-step-label {
+  white-space: normal !important;
+  overflow: visible !important;
+  height: auto !important;
+}
+
+.custom-stepper ::ng-deep .mat-step-label-content {
+  white-space: normal !important;
+  overflow: visible !important;
+}
+
+.step-link {
+  display: block;
+  white-space: normal;
 }

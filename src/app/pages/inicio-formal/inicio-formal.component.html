@@ -1,4 +1,23 @@
 <div class="w-full h-full mt-20">
+  @if(errorMessage) {
+  <div
+    class="mx-40 mt-4 p-4 rounded"
+    [ngClass]="
+      usandoMock
+        ? 'bg-yellow-100 border border-yellow-400 text-yellow-700'
+        : 'bg-red-100 border border-red-400 text-red-700'
+    "
+  >
+    <span class="font-semibold">
+      {{ usandoMock ? "⚠️ Modo de prueba:" : "❌ Error:" }}
+    </span>
+    {{ errorMessage }}
+  </div>
+  } @if(isLoading) {
+  <div class="flex justify-center items-center h-96">
+    <p class="text-lg text-gray-500">Cargando información del proyecto...</p>
+  </div>
+  } @else {
   <form [formGroup]="InicioForm" (ngSubmit)="onSubmit()">
     <div class="p-20 pt-0 px-40 mx-auto w-full flex flex-col">
       <div class="flex gap-4 mb-4 w-full">
@@ -101,4 +120,5 @@
       </div>
     </div>
   </form>
+  }
 </div>

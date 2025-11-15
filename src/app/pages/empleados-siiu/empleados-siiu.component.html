@@ -143,17 +143,21 @@
       @if(showEmpleado) {
       <div class="m-4 p-4 border">
         <div class="w-full pt-4 pb-8 border-b flex">
-          <mat-form-field class="w-1/2">
+          <mat-form-field class="w-1/4 mr-4">
             <mat-label>Identificación</mat-label>
-            <input matInput placeholder="Identificación" />
+            <input
+              matInput
+              placeholder="Identificación"
+              [(ngModel)]="identificacion"
+            />
           </mat-form-field>
-          <mat-form-field class="w-1/2">
+          <mat-form-field class="w-1/4 mr-4">
             <mat-label>Nombre</mat-label>
-            <input matInput placeholder="Nombre" />
+            <input matInput placeholder="Nombre" [(ngModel)]="nombre" />
           </mat-form-field>
-          <mat-form-field class="w-1/2">
+          <mat-form-field class="w-1/4 mr-4">
             <mat-label>Apellido</mat-label>
-            <input matInput placeholder="Apellido" />
+            <input matInput placeholder="Apellido" [(ngModel)]="apellido" />
           </mat-form-field>
           <div>
             <button
@@ -161,8 +165,12 @@
               zShape="square"
               zSize="lg"
               class="bg-lime-200 w-40 mr-4 text-start flex p-0 m-0 ml-8 justify-between shadow-md"
+              (click)="buscarEmpleados()"
+              [disabled]="isLoading"
             >
-              <p class="pl-8 font-bold text-lime-600 mt-3">BUSCAR</p>
+              <p class="pl-8 font-bold text-lime-600 mt-3">
+                {{ isLoading ? "BUSCANDO..." : "BUSCAR" }}
+              </p>
               <div
                 class="p-0 m-0 bg-lime-600 text-white w-10 h-10 text-center flex"
               >
@@ -194,58 +202,95 @@
             </button>
           </div>
         </div>
+
+        @if(errorMessage) {
+        <div
+          class="my-4 p-3 rounded"
+          [ngClass]="
+            usandoMock
+              ? 'bg-yellow-100 border border-yellow-400 text-yellow-700'
+              : 'bg-red-100 border border-red-400 text-red-700'
+          "
+        >
+          <span class="font-semibold">
+            {{ usandoMock ? "⚠️ Modo de prueba:" : "❌ Error:" }}
+          </span>
+          {{ errorMessage }}
+        </div>
+        }
+
         <div class="my-4">
-          <p class="text-xl mb-4">Resultados (1)</p>
-          <div class="min-h-80 w-64 border shadow-lg py-4">
-            <div class="ml-4 mb-8">
-              <p class="font-semibold text-base">Nombre del empleado</p>
-              <p class="text-sm text-gray-500">Identificación: 000000</p>
-            </div>
-            <div class="ml-12 my-2">
-              <p class="text-sm text-gray-500">Dirección</p>
-              <p class="text-base">Valor dirección</p>
-            </div>
-            <div class="ml-12 my-2">
-              <p class="text-sm text-gray-500">Correo</p>
-              <p class="text-base">Valor correo</p>
-            </div>
-            <div class="ml-12 my-2">
-              <p class="text-sm text-gray-500">Teléfono</p>
-              <p class="text-base">5555555</p>
-            </div>
-            <div class="ml-12 my-2">
-              <p class="text-sm text-gray-500">Celular</p>
-              <p class="text-base">3100000000</p>
-            </div>
-            <button
-              z-button
-              zShape="square"
-              zSize="lg"
-              class="bg-sky-300 w-28 h-10 mx-auto text-start flex p-0 m-0 justify-between shadow-md text-center"
-            >
-              <p
-                class="w-full mt-2 font-bold text-sky-900 text-nowrap align-middle"
+          <p class="text-xl mb-4">Resultados ({{ empleados.length }})</p>
+          @if(empleados.length > 0) {
+          <div class="grid grid-cols-4 gap-4">
+            @for(empleado of empleados; track empleado.id ||
+            empleado.identificacion) {
+            <div class="border shadow-lg py-4 px-4 rounded">
+              <div class="mb-4">
+                <p class="font-semibold text-base">
+                  {{ empleado.nombre }} {{ empleado.apellido }}
+                </p>
+                <p class="text-sm text-gray-500">
+                  Identificación: {{ empleado.identificacion }}
+                </p>
+              </div>
+              @if(empleado.direccion) {
+              <div class="ml-4 my-2">
+                <p class="text-sm text-gray-500">Dirección</p>
+                <p class="text-base">{{ empleado.direccion }}</p>
+              </div>
+              } @if(empleado.correo) {
+              <div class="ml-4 my-2">
+                <p class="text-sm text-gray-500">Correo</p>
+                <p class="text-base">{{ empleado.correo }}</p>
+              </div>
+              } @if(empleado.telefono) {
+              <div class="ml-4 my-2">
+                <p class="text-sm text-gray-500">Teléfono</p>
+                <p class="text-base">{{ empleado.telefono }}</p>
+              </div>
+              } @if(empleado.celular) {
+              <div class="ml-4 my-2">
+                <p class="text-sm text-gray-500">Celular</p>
+                <p class="text-base">{{ empleado.celular }}</p>
+              </div>
+              }
+              <button
+                z-button
+                zShape="square"
+                zSize="lg"
+                class="bg-sky-300 w-28 h-10 mx-auto text-start flex p-0 m-0 justify-between shadow-md text-center mt-4"
+                (click)="seleccionarEmpleado(empleado)"
               >
-                SELECCIONR
-              </p>
-            </button>
+                <p
+                  class="w-full mt-2 font-bold text-sky-900 text-nowrap align-middle"
+                >
+                  SELECCIONAR
+                </p>
+              </button>
+            </div>
+            }
           </div>
+          } @else {
+          <p class="text-gray-500">No se encontraron empleados</p>
+          }
         </div>
       </div>
-      }
+      } @if(empleadoSeleccionado) {
       <div class="border border-1 m-4 text-gray-500">
-        <div class="h-16 ml-24 pt-6">Nombre</div>
+        <div class="h-16 ml-24 pt-6">{{ empleadoSeleccionado.nombre }}</div>
         <div class="flex bg-gray-200 h-12 pt-4">
-          <p class="ml-12">Identificación</p>
-          <p class="ml-12">Correo Electrónico</p>
-          <p class="ml-12">Teléfono</p>
+          <p class="ml-12">{{ empleadoSeleccionado.identificacion }}</p>
+          <p class="ml-12">{{ empleadoSeleccionado.correo }}</p>
+          <p class="ml-12">{{ empleadoSeleccionado.telefono }}</p>
         </div>
       </div>
       <mat-divider class="!mt-16 !mb-4"></mat-divider>
       <p class="mb-4 ml-8">Defina Rol</p>
       <mat-form-field class="w-full px-4">
         <mat-label>Rol</mat-label>
-        <select matNativeControl required>
+        <select matNativeControl required [(ngModel)]="rolSeleccionado">
+          <option value="">Seleccionar rol</option>
           <option value="rol1">Rol 1</option>
           <option value="rol2">Rol 2</option>
         </select>
@@ -254,7 +299,8 @@
       <p class="mb-4 ml-8">Defina el centro administrativo</p>
       <mat-form-field class="w-full px-4">
         <mat-label>Centro administrativo</mat-label>
-        <select matNativeControl required>
+        <select matNativeControl required [(ngModel)]="centroSeleccionado">
+          <option value="">Seleccionar centro</option>
           <option value="centro1">Centro 1</option>
           <option value="centro2">Centro 2</option>
         </select>
@@ -263,10 +309,68 @@
       <div class="border border-1 m-4 text-gray-700">
         <div class="h-16 ml-24 pt-2">
           <p class="text-gray-500">Nombre corto</p>
-          <p class="text-base">Nombre Centro Administrativo</p>
+          <p class="text-base">
+            {{
+              (empleadoSeleccionado.nombre || "").substring(0, 3) | uppercase
+            }}
+          </p>
         </div>
       </div>
       <mat-divider class="!mt-16 !mb-4"></mat-divider>
+      <div class="flex mb-8">
+        <button
+          z-button
+          zShape="square"
+          zSize="lg"
+          class="bg-white w-40 mr-4 text-start flex p-0 m-0 ml-8 justify-between shadow-md border"
+          type="button"
+          (click)="onReset()"
+        >
+          <p class="pl-6 font-bold text-black mt-3">LIMPIAR</p>
+        </button>
+        <button
+          z-button
+          zShape="square"
+          zSize="lg"
+          class="bg-lime-200 w-40 mr-4 text-start flex p-0 m-0 ml-8 justify-between shadow-md"
+          type="button"
+          (click)="guardarEmpleado()"
+          [disabled]="isSaving"
+        >
+          <p class="pl-8 font-bold text-lime-600 mt-3">
+            {{ isSaving ? "GUARDANDO..." : "GUARDAR" }}
+          </p>
+          <div
+            class="p-0 m-0 bg-lime-600 text-white w-10 h-10 text-center flex"
+          >
+            <svg
+              width="40px"
+              height="40px"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="ml-1 mt-1"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                  stroke="#ffffff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </g>
+            </svg>
+          </div>
+        </button>
+      </div>
+      }
     </mat-tab>
   </mat-tab-group>
 </div>

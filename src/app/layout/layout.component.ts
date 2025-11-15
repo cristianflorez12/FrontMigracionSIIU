@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, RouterModule } from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
   imports: [
     CommonModule,
     RouterOutlet,
+    RouterModule,
     MatStepperModule,
     MatIconModule,
     MatButtonModule,
