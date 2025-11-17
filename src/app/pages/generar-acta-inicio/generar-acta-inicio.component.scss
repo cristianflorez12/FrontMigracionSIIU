@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+::ng-deep {
+  .hidden {
+    display: none !important;
+  }
+
+  // Estilos para la animación del spinner
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+}

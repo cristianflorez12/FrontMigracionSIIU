@@ -41,4 +41,25 @@ export const routes: Routes = [
         (m) => m.InicioFormalComponent
       ),
   },
+  {
+    path: 'generar-acta-inicio',
+    loadComponent: () =>
+      import('./pages/generar-acta-inicio/generar-acta-inicio.component').then(
+        (m) => m.GenerarActaInicioComponent
+      ),
+  },
+  {
+    path: 'documentos-soporte',
+    loadComponent: () =>
+      import('./pages/documentos-soporte/documentos-soporte.component').then(
+        (m) => m.DocumentosSoporteComponent
+      ),
+  },
+  {
+    path: 'cerrar-inicio-formal',
+    loadComponent: () =>
+      import(
+        './pages/cerrar-inicio-formal/cerrar-inicio-formal.component'
+      ).then((m) => m.CerrarInicioFormalComponent),
+  },
 ];

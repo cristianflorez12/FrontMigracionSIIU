@@ -1,0 +1,286 @@
+<div class="min-h-screen bg-gray-50 p-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Encabezado -->
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-green-800 mb-2">
+        Generar Acta de Inicio Formal
+      </h1>
+      <p class="text-gray-600">
+        Descarga un documento oficial que certifica el inicio formal del
+        proyecto. El acta se generará con toda la información actualizada del
+        proyecto.
+      </p>
+    </div>
+
+    <!-- Alerta de Error -->
+    @if(errorMessage) {
+    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+      <p class="text-red-700">{{ errorMessage }}</p>
+    </div>
+    }
+
+    <!-- Alerta de Datos de Prueba -->
+    @if(usandoMock && !errorMessage) {
+    <div class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+      <p class="text-yellow-700">
+        ⚠️ Se están usando datos de prueba porque no se pudo conectar con el
+        servidor. El acta será generada correctamente.
+      </p>
+    </div>
+    }
+
+    <!-- Card con botón -->
+    <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-semibold text-green-800 mb-2">
+            Acta de Inicio Formal del Proyecto
+          </h2>
+          <p class="text-gray-600 mb-4">
+            Al hacer clic en el botón, se generará un PDF con la información
+            actual del proyecto. Este documento sirve como constancia oficial
+            del inicio formal de las actividades.
+          </p>
+          @if(isGenerating) {
+          <p class="text-blue-600 text-sm flex items-center">
+            <span
+              class="inline-block w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-2"
+            ></span>
+            Generando documento...
+          </p>
+          }
+        </div>
+        <button
+          (click)="generarActaInicio()"
+          [disabled]="isLoading || isGenerating"
+          class="bg-lime-200 text-lime-600 w-60 mr-4 text-start font-semibold p-0 px-auto m-0 pt-4 justify-between shadow-md h-10 my-auto"
+        >
+          <p class="pt-2 pl-4">
+            @if(isGenerating) { Generando... } @else { Generar Acta PDF }
+          </p>
+        </button>
+      </div>
+    </div>
+
+    <!-- Plantilla de vista previa (oculta, solo para PDF) -->
+    <div #pdfContent class="hidden">
+      @if(proyecto) {
+      <div
+        class="w-full bg-white p-16 text-gray-900"
+        style="width: 210mm; min-height: 297mm; box-sizing: border-box"
+      >
+        <!-- Encabezado del documento -->
+        <div class="border-b-4 border-blue-600 pb-6 mb-8 text-center">
+          <h1 class="text-3xl font-bold mb-2">ACTA DE INICIO FORMAL</h1>
+          <p class="text-sm text-gray-600">
+            Documento oficial que certifica el inicio formal del proyecto
+          </p>
+        </div>
+
+        <!-- Información del proyecto -->
+        <div class="mb-8">
+          <h2 class="text-xl font-bold text-blue-600 mb-4">
+            INFORMACIÓN DEL PROYECTO
+          </h2>
+
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="border-b border-gray-300 pb-3">
+              <p
+                class="text-xs uppercase tracking-wider text-gray-500 font-semibold"
+              >
+                Nombre del Proyecto
+              </p>
+              <p class="text-lg font-semibold text-gray-900">
+                {{ proyecto.nombre }}
+              </p>
+            </div>
+            <div class="border-b border-gray-300 pb-3">
+              <p
+                class="text-xs uppercase tracking-wider text-gray-500 font-semibold"
+              >
+                Código del Proyecto
+              </p>
+              <p class="text-lg font-semibold text-gray-900">
+                {{ proyecto.codigo }}
+              </p>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <p
+              class="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2"
+            >
+              Descripción
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+              {{ proyecto.descripcion }}
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-gray-50 p-4 rounded border border-gray-200">
+              <p
+                class="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2"
+              >
+                Fecha de Inicio
+              </p>
+              <p class="text-lg font-semibold text-gray-900">
+                {{
+                  proyecto.fechaInicio
+                    ? (proyecto.fechaInicio | slice : 0 : 10)
+                    : "No especificada"
+                }}
+              </p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded border border-gray-200">
+              <p
+                class="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2"
+              >
+                Fecha de Finalización
+              </p>
+              <p class="text-lg font-semibold text-gray-900">
+                {{
+                  proyecto.fechaFin
+                    ? (proyecto.fechaFin | slice : 0 : 10)
+                    : "No especificada"
+                }}
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-gray-50 p-4 rounded border border-gray-200">
+              <p
+                class="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2"
+              >
+                Duración
+              </p>
+              <p class="text-lg font-semibold text-gray-900">
+                {{ proyecto.duracion }} {{ proyecto.duracionUnidad }}
+              </p>
+            </div>
+            <div class="bg-gray-50 p-4 rounded border border-gray-200">
+              <p
+                class="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2"
+              >
+                Institución
+              </p>
+              <p class="text-lg font-semibold text-gray-900">
+                {{ proyecto.institucion }}
+              </p>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <p
+              class="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2"
+            >
+              Responsable
+            </p>
+            <p class="text-gray-700">{{ proyecto.responsable }}</p>
+          </div>
+
+          @if(proyecto.observaciones) {
+          <div class="bg-blue-50 p-4 rounded border border-blue-200 mb-6">
+            <p
+              class="text-xs uppercase tracking-wider text-blue-600 font-semibold mb-2"
+            >
+              Observaciones
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+              {{ proyecto.observaciones }}
+            </p>
+          </div>
+          }
+        </div>
+
+        <!-- Sección de certificación -->
+        <div class="mt-12 pt-8 border-t-2 border-gray-300">
+          <p class="text-sm text-gray-600 mb-8 text-justify leading-relaxed">
+            Por medio de la presente se certifica que el proyecto mencionado
+            anteriormente ha sido oficialmente iniciado el día de hoy. Se
+            autoriza a todos los participantes del proyecto para comenzar las
+            actividades programadas de conformidad con el plan establecido.
+          </p>
+
+          <div class="grid grid-cols-3 gap-8 text-center mt-16">
+            <div>
+              <div class="border-t-2 border-gray-400 pt-2 mt-12"></div>
+              <p class="text-sm font-semibold text-gray-900">
+                Responsable del Proyecto
+              </p>
+            </div>
+            <div>
+              <div class="border-t-2 border-gray-400 pt-2 mt-12"></div>
+              <p class="text-sm font-semibold text-gray-900">
+                Coordinador Académico
+              </p>
+            </div>
+            <div>
+              <div class="border-t-2 border-gray-400 pt-2 mt-12"></div>
+              <p class="text-sm font-semibold text-gray-900">
+                Director Institucional
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pie de página -->
+        <div
+          class="mt-12 pt-4 border-t-2 border-gray-300 text-center text-xs text-gray-500"
+        >
+          <p>
+            Documento generado automáticamente el
+            {{ now | date : "d/MM/yyyy" }} a las {{ now | date : "HH:mm:ss" }}
+          </p>
+          <p class="mt-1">
+            Sistema de Información Institucional Universitario (SIIU)
+          </p>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- Información adicional -->
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mt-8">
+      <h3 class="text-lg font-semibold text-green-800 mb-3">
+        ¿Qué incluye este documento?
+      </h3>
+      <ul class="space-y-2 text-blue-800">
+        <li class="flex items-start">
+          <span
+            class="inline-block w-2 h-2 bg-green-800 rounded-full mt-2 mr-3 flex-shrink-0"
+          ></span>
+          <span
+            >Información completa del proyecto (nombre, código,
+            descripción)</span
+          >
+        </li>
+        <li class="flex items-start">
+          <span
+            class="inline-block w-2 h-2 bg-green-800 rounded-full mt-2 mr-3 flex-shrink-0"
+          ></span>
+          <span>Fechas de inicio y finalización del proyecto</span>
+        </li>
+        <li class="flex items-start">
+          <span
+            class="inline-block w-2 h-2 bg-green-800 rounded-full mt-2 mr-3 flex-shrink-0"
+          ></span>
+          <span>Duración total y duración de la institución participante</span>
+        </li>
+        <li class="flex items-start">
+          <span
+            class="inline-block w-2 h-2 bg-green-800 rounded-full mt-2 mr-3 flex-shrink-0"
+          ></span>
+          <span>Responsable del proyecto y observaciones</span>
+        </li>
+        <li class="flex items-start">
+          <span
+            class="inline-block w-2 h-2 bg-green-800 rounded-full mt-2 mr-3 flex-shrink-0"
+          ></span>
+          <span>Espacios para firmas oficiales de autoridades</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
