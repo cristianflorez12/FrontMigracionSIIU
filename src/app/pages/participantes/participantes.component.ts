@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -10,7 +10,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
 import { ApiService } from '../../services/api.service';
 
@@ -62,7 +67,6 @@ export interface Participante {
 export class ParticipantesComponent implements OnInit {
   private apiService = inject(ApiService);
   private fb = inject(FormBuilder);
-  private cdr = inject(ChangeDetectorRef);
 
   displayedColumns: string[] = [
     'empty',
@@ -79,6 +83,7 @@ export class ParticipantesComponent implements OnInit {
   usandoMock = false;
   projectId = '1';
   participanteEditandoId: string | null = null;
+  formularioParticipante!: FormGroup;
   participanteSeleccionado: Participante | null = null;
 
   // Propiedades para mostrar datos dinámicamente
@@ -96,20 +101,6 @@ export class ParticipantesComponent implements OnInit {
   rolParticipante = '';
   vinculoUdeAParticipante = '';
   totalHorasSemana = 0;
-
-  formularioParticipante = this.fb.group({
-    vinculoUdeA: ['', Validators.required],
-    grupo: [''],
-    rol: ['', Validators.required],
-    dependencia: ['', Validators.required],
-    dedicacionFueraHoras: [0],
-    dedicacionFueraMeses: [0],
-    dedicacionDentroHoras: [0],
-    dedicacionDentroMeses: [0],
-    funciones: ['', Validators.required],
-    observaciones: [''],
-    institucion: [''],
-  });
 
   private mockParticipantes: Participante[] = [
     {
@@ -160,8 +151,23 @@ export class ParticipantesComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarParticipantes();
-    // Asegurar que el change detection esté activo
-    this.cdr.markForCheck();
+    this.inicializarFormulario();
+  }
+
+  private inicializarFormulario(): void {
+    this.formularioParticipante = this.fb.group({
+      vinculoUdeA: ['', Validators.required],
+      grupo: [''],
+      rol: ['', Validators.required],
+      dependencia: ['', Validators.required],
+      dedicacionFueraHoras: [0],
+      dedicacionFueraMeses: [0],
+      dedicacionDentroHoras: [0],
+      dedicacionDentroMeses: [0],
+      funciones: ['', Validators.required],
+      observaciones: [''],
+      institucion: [''],
+    });
   }
 
   private cargarParticipantes(): void {
@@ -222,14 +228,6 @@ export class ParticipantesComponent implements OnInit {
       funciones: participante.funciones || '',
       observaciones: participante.observaciones || '',
     });
-
-    // Marcar como pristine para que Material sepa que los campos están inicializados
-    this.formularioParticipante.markAsPristine();
-
-    // Forzar detección de cambios después de un ciclo para permitir que Material se renderice
-    setTimeout(() => {
-      this.cdr.detectChanges();
-    }, 0);
   }
 
   cerrarEdicion(): void {
@@ -245,10 +243,6 @@ export class ParticipantesComponent implements OnInit {
     this.rolParticipante = '';
     this.vinculoUdeAParticipante = '';
     this.totalHorasSemana = 0;
-    // Forzar detección de cambios después de un ciclo
-    setTimeout(() => {
-      this.cdr.detectChanges();
-    }, 0);
   }
 
   guardarParticipante(): void {

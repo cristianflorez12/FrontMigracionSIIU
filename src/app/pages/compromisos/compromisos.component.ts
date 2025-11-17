@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
@@ -11,10 +11,17 @@ import {
   FormBuilder,
   FormGroup,
   FormArray,
-  Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
+export interface Compromiso {
+  id?: string;
+  compromiso?: string;
+  descripcion: string;
+  notas?: string;
+  fechaEstimada?: string;
+}
 
 @Component({
   selector: 'app-compromisos',
@@ -34,56 +41,98 @@ import { CommonModule } from '@angular/common';
   styleUrl: './compromisos.component.scss',
 })
 export class CompromisosComponent implements OnInit {
+  private apiService = inject(ApiService);
+  private fb = inject(FormBuilder);
+  private cdr = inject(ChangeDetectorRef);
+
   displayedColumns: string[] = ['descripcion', 'acciones', 'notas'];
 
-  dataSource: any[] = [];
-
+  dataSource: Compromiso[] = [];
   compromisosForm!: FormGroup;
+  isLoading = true;
+  errorMessage = '';
+  usandoMock = false;
+  projectId = '1';
 
-  constructor(private fb: FormBuilder, private api: ApiService) {}
+  private mockCompromisos: Compromiso[] = [
+    {
+      id: '1',
+      compromiso: 'Compromiso 1',
+      descripcion: 'Descripción del compromiso 1',
+      notas: 'Notas del compromiso 1',
+    },
+    {
+      id: '2',
+      compromiso: 'Compromiso 2',
+      descripcion: 'Descripción del compromiso 2',
+      notas: 'Notas del compromiso 2',
+    },
+    {
+      id: '3',
+      compromiso: 'Compromiso 3',
+      descripcion: 'Descripción del compromiso 3',
+      notas: 'Notas del compromiso 3',
+    },
+  ];
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.compromisosForm = this.fb.group({
       compromisos: this.fb.array([]),
     });
-
-    // For testing purposes, let's add some initial data
-    const mockData = [
-      {
-        compromiso: 'Compromiso 1',
-        descripcion: 'Descripción del compromiso 1',
-        notas: 'Notas del compromiso 1',
-      },
-      {
-        compromiso: 'Compromiso 2',
-        descripcion: 'Descripción del compromiso 2',
-        notas: 'Notas del compromiso 2',
-      },
-      {
-        compromiso: 'Compromiso 3',
-        descripcion: 'Descripción del compromiso 3',
-        notas: 'Notas del compromiso 3',
-      },
-    ];
-
-    this.setFormArrayFromData(mockData);
+    this.cargarCompromisos();
+    this.cdr.markForCheck();
   }
 
-  private createCompromisoGroup(item: any = {}) {
+  private cargarCompromisos(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.usandoMock = false;
+
+    this.apiService
+      .get<Compromiso[]>(`/api/compromisos/${this.projectId}`)
+      .subscribe({
+        next: (compromisos) => {
+          console.log('Compromisos cargados:', compromisos);
+          this.dataSource = compromisos;
+          this.setFormArrayFromData(compromisos);
+          this.isLoading = false;
+          this.usandoMock = false;
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('Error al cargar los compromisos:', error);
+          console.warn('Cargando datos de prueba (mock)...');
+          this.dataSource = this.mockCompromisos;
+          this.usandoMock = true;
+          this.isLoading = false;
+          this.errorMessage =
+            'No se pudo conectar al servidor. Mostrando datos de prueba.';
+          this.setFormArrayFromData(this.mockCompromisos);
+          this.cdr.detectChanges();
+        },
+      });
+  }
+
+  private createCompromisoGroup(item: Partial<Compromiso> = {}): FormGroup {
     return this.fb.group({
+      id: [item.id || ''],
       compromiso: [item.compromiso || ''],
       descripcion: [item.descripcion || ''],
       notas: [item.notas || ''],
+      fechaEstimada: [item.fechaEstimada || ''],
     });
   }
 
-  private setFormArrayFromData(data: any[]) {
+  private setFormArrayFromData(data: Compromiso[]): void {
     const fa = this.compromisosForm.get('compromisos') as FormArray;
     fa.clear();
     data.forEach((item) => fa.push(this.createCompromisoGroup(item)));
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 100);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.compromisosForm.invalid) {
       this.compromisosForm.markAllAsTouched();
       return;
@@ -91,29 +140,21 @@ export class CompromisosComponent implements OnInit {
 
     const body = this.compromisosForm.value;
     console.log('Formulario enviado:', body);
-    this.api.post<any[]>('/api/proyectos', body).subscribe({
-      next: (data) => (this.dataSource = data),
-      error: (err) => {
-        console.error('Error guardando compromisos:', err);
-        this.dataSource = [
-          {
-            compromiso: 'Compromiso 1',
-            descripcion: 'Descripción del compromiso 1',
-            notas: 'Notas del compromiso 1',
-          },
-          {
-            compromiso: 'Compromiso 2',
-            descripcion: 'Descripción del compromiso 2',
-            notas: 'Notas del compromiso 2',
-          },
-          {
-            compromiso: 'Compromiso 3',
-            descripcion: 'Descripción del compromiso 3',
-            notas: 'Notas del compromiso 3',
-          },
-        ];
-      },
-    });
+    this.apiService
+      .post<{ success: boolean; message: string }>(
+        '/api/compromisos/actualizar',
+        body
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('Compromisos guardados:', response);
+          this.cargarCompromisos();
+        },
+        error: (err: Error) => {
+          console.error('Error guardando compromisos:', err);
+          this.errorMessage = 'Error al guardar los compromisos';
+        },
+      });
   }
 
   get compromisosArray() {

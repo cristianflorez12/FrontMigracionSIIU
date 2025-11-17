@@ -1,4 +1,17 @@
 <div class="w-full h-full mt-20">
+  @if(errorMessage) {
+  <z-alert
+    zTitle=""
+    [zDescription]="errorMessage"
+    [zType]="usandoMock ? 'warning' : 'error'"
+    zAppearance="soft"
+    class="mb-4"
+  />
+  } @if(isLoading) {
+  <div class="flex justify-center items-center py-20">
+    <p class="text-lg text-gray-600">Cargando compromisos...</p>
+  </div>
+  } @else {
   <form [formGroup]="compromisosForm" (ngSubmit)="onSubmit()">
     <mat-tab-group>
       <mat-tab label="Compromisos" class="!w-1/6">
@@ -255,4 +268,5 @@
       </mat-tab>
     </mat-tab-group>
   </form>
+  }
 </div>
