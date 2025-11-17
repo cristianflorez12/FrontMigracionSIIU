@@ -1,1 +1,238 @@
-<p>cerrar-inicio-formal works!</p>
+<div class="w-full p-8 bg-white rounded-lg shadow-md">
+  <!-- Mensaje de exito -->
+  <div *ngIf="confirmacionEnviada" class="mb-8">
+    <z-alert
+      zTitle="Confirmacion completada"
+      [zDescription]="mensajeExito"
+      zType="success"
+      zAppearance="soft"
+    />
+  </div>
+
+  <!-- Header con advertencia -->
+  <div class="mb-12 border-l-4 border-red-600 pl-6 py-6 bg-red-50 rounded-r-lg">
+    <h2 class="text-3xl font-bold text-green-800 mb-4">
+      Cierre del Inicio Formal del Proyecto
+    </h2>
+    <div class="flex items-start gap-3 mb-4">
+      <svg
+        class="w-6 h-6 text-red-600 flex-shrink-0 mt-1"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+          clip-rule="evenodd"
+        ></path>
+      </svg>
+      <div>
+        <p class="font-semibold text-red-900 text-lg">Advertencia importante</p>
+        <p class="text-red-800 mt-2">
+          Al confirmar, no sera posible realizar cambios en la informacion
+          registrada. Asegurate de haber completado y revisado todos los datos
+          antes de proceder.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div *ngIf="!confirmacionEnviada" class="space-y-8">
+    <!-- Descripcion del cierre -->
+    <div class="bg-gray-50 p-6 rounded-lg">
+      <h3 class="text-2xl font-bold text-green-800 mb-4">
+        Resumen de la solicitud
+      </h3>
+      <p class="text-gray-700 mb-4">
+        Ha completado todos los pasos requeridos para el inicio formal del
+        proyecto. En esta etapa final debe:
+      </p>
+      <ul class="space-y-3 ml-6">
+        <li class="flex items-start gap-3">
+          <svg
+            class="w-5 h-5 text-green-600 flex-shrink-0 mt-1"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span>Revisar la informacion del proyecto ingresada</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg
+            class="w-5 h-5 text-green-600 flex-shrink-0 mt-1"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span>Aceptar los terminos y condiciones de la convocatoria</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg
+            class="w-5 h-5 text-green-600 flex-shrink-0 mt-1"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span>Confirmar la legitimidad de los datos registrados</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Terminos y condiciones -->
+    <div class="space-y-6">
+      <!-- Terminos -->
+      <div class="border-2 border-gray-200 rounded-lg p-6">
+        <div class="flex items-start gap-4">
+          <mat-checkbox
+            [(ngModel)]="aceptaTerminos"
+            class="mt-1"
+          ></mat-checkbox>
+          <div class="flex-1">
+            <h4 class="text-xl font-bold text-green-800 mb-2">
+              Terminos y condiciones de la convocatoria
+            </h4>
+            <p class="text-gray-700 mb-4">
+              Confirmo que he leido, entendido y acepto los terminos y
+              condiciones establecidos en la convocatoria para el inicio formal
+              de proyectos de investigacion. Reconozco que estos terminos son
+              vinculantes y que mi participacion implica su cumplimiento total.
+            </p>
+            <div class="bg-gray-100 p-4 rounded text-sm text-gray-600 mb-3">
+              <p class="font-semibold mb-2">Principales obligaciones:</p>
+              <ul class="list-disc list-inside space-y-1">
+                <li>Cumplimiento de cronograma y presupuesto establecidos</li>
+                <li>Informes periodicos del avance del proyecto</li>
+                <li>Utilizacion adecuada de recursos asignados</li>
+                <li>Respeto a normas institucionales y legales</li>
+                <li>Propiedad intelectual segun politica de la institucion</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legitimidad de datos -->
+      <div class="border-2 border-gray-200 rounded-lg p-6">
+        <div class="flex items-start gap-4">
+          <mat-checkbox
+            [(ngModel)]="aceptaLegitimidad"
+            class="mt-1"
+          ></mat-checkbox>
+          <div class="flex-1">
+            <h4 class="text-xl font-bold text-green-800 mb-2">
+              Legitimidad de datos registrados
+            </h4>
+            <p class="text-gray-700">
+              Certifico bajo mi responsabilidad que toda la informacion
+              registrada en este formulario es veridica, completa y exacta. Los
+              datos proporcionados corresponden a la realidad del proyecto y sus
+              participantes. Asumo cualquier consecuencia legal derivada de
+              informacion falsa o incompleta.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Responsabilidad -->
+      <div class="border-2 border-gray-200 rounded-lg p-6">
+        <div class="flex items-start gap-4">
+          <mat-checkbox
+            [(ngModel)]="aceptaResponsabilidad"
+            class="mt-1"
+          ></mat-checkbox>
+          <div class="flex-1">
+            <h4 class="text-xl font-bold text-green-800 mb-2">
+              Responsabilidad y sin vuelta atrás
+            </h4>
+            <p class="text-gray-700">
+              Entiendo que al confirmar el cierre del inicio formal, la
+              informacion sera enviada para revision administrativa y no podra
+              ser modificada. Cualquier cambio posterior requerira trámites
+              adicionales. Asumo plena responsabilidad por las acciones y
+              omisiones contenidas en esta solicitud.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones de accion -->
+    <div class="flex gap-4 pt-6 border-t-2 border-gray-200">
+      <button
+        (click)="reiniciar()"
+        class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+        Cancelar
+      </button>
+
+      <button
+        (click)="confirmarCierre()"
+        [disabled]="!todosAceptados || procesando"
+        class="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+        <span *ngIf="!procesando">Confirmar cierre del inicio formal</span>
+        <span *ngIf="procesando">Procesando...</span>
+      </button>
+    </div>
+
+    <!-- Estado de validacion -->
+    <div
+      class="p-4 rounded-lg"
+      [ngClass]="{
+        'bg-red-100 border border-red-300': !todosAceptados,
+        'bg-green-100 border border-green-300': todosAceptados
+      }"
+    >
+      <p
+        class="font-semibold"
+        [ngClass]="{
+          'text-red-800': !todosAceptados,
+          'text-green-800': todosAceptados
+        }"
+      >
+        <span *ngIf="!todosAceptados"
+          >Debes aceptar todos los terminos para proceder</span
+        >
+        <span *ngIf="todosAceptados"
+          >Todos los terminos han sido aceptados</span
+        >
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+// Estilos para el componente de documentos de soporte
+
+:host {
+  display: block;
+}
+
+// Efecto hover en los botones
+button {
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Animación para la barra de progreso
+::ng-deep .mat-mdc-progress-bar {
+  height: 4px;
+}
+
+// Estilos para el área de drop
+.border-dashed {
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #00897b;
+    background-color: #e0f2f1;
+  }
+}
+
+// Animación suave para los iconos
+svg {
+  transition: transform 0.3s ease;
+}
+
+button:hover svg {
+  transform: scale(1.1);
+}

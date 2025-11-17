@@ -1,0 +1,62 @@
+// Estilos para el componente de cierre del inicio formal
+
+:host {
+  display: block;
+}
+
+// Estilos para los checkboxes
+::ng-deep .mat-mdc-checkbox {
+  .mdc-checkbox__native-control:checked ~ .mdc-checkbox__background {
+    background-color: #059669;
+  }
+
+  .mdc-checkbox__native-control:checked ~ .mdc-checkbox__background::after {
+    border-color: #059669;
+  }
+}
+
+// Efectos hover en botones
+button {
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Animaciones suaves
+.border-2 {
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #059669;
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.1);
+  }
+}
+
+// Estilos para los iconos
+svg {
+  transition: transform 0.3s ease;
+}
+
+// Animacion para el estado de validacion
+[class*="bg-green"] {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

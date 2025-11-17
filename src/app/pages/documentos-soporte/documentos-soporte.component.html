@@ -1,1 +1,175 @@
-<p>documentos-soporte works!</p>
+<div class="w-full p-8 bg-white rounded-lg shadow-md">
+  <!-- Mensaje de exito -->
+  <div *ngIf="mostrarMensaje" class="mb-6">
+    <z-alert
+      zTitle="Exito"
+      [zDescription]="mensajeExito"
+      zType="success"
+      zAppearance="soft"
+    />
+  </div>
+
+  <!-- Header -->
+  <div class="mb-8">
+    <h2 class="text-3xl font-bold text-green-800 mb-2">
+      Documentos de Soporte
+    </h2>
+    <p class="text-gray-600">
+      Carga todos los documentos de soporte necesarios para el inicio formal del
+      proyecto. Estos documentos respaldar&#225;n la solicitud y servir&#225;n
+      como evidencia del cumplimiento de los requisitos.
+    </p>
+  </div>
+
+  <!-- Seccion de carga de archivos -->
+  <div
+    class="bg-gray-50 p-8 rounded-lg border-2 border-dashed border-green-300 mb-8"
+  >
+    <div class="flex flex-col items-center justify-center py-8">
+      <svg
+        class="w-16 h-16 text-green-500 mb-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 4v16m8-8H4"
+        ></path>
+      </svg>
+
+      <h3 class="text-xl font-semibold text-gray-700 mb-2">
+        Selecciona documentos para cargar
+      </h3>
+      <p class="text-gray-500 mb-6 text-center">
+        Puedes cargar documentos en formato PDF, Word, Excel, etc.
+      </p>
+
+      <label
+        class="bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg cursor-pointer transition-colors"
+      >
+        <input
+          id="fileInput"
+          type="file"
+          multiple
+          class="hidden"
+          (change)="onArchivoSeleccionado($event)"
+        />
+        Seleccionar archivo(s)
+      </label>
+
+      <p
+        class="text-sm text-gray-500 mt-4"
+        *ngIf="archivosSeleccionados.length > 0"
+      >
+        {{ archivosSeleccionados.length }} archivo(s) seleccionado(s)
+      </p>
+    </div>
+
+    <div *ngIf="archivosSeleccionados.length > 0" class="mt-6">
+      <button
+        (click)="cargarDocumentos()"
+        [disabled]="cargando"
+        class="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+      >
+        <span *ngIf="!cargando">Cargar archivo(s)</span>
+        <span *ngIf="cargando">Cargando...</span>
+      </button>
+    </div>
+
+    <!-- Barra de progreso -->
+    <mat-progress-bar
+      *ngIf="cargando"
+      mode="indeterminate"
+      class="mt-4"
+    ></mat-progress-bar>
+  </div>
+
+  <!-- Lista de documentos cargados -->
+  <div *ngIf="documentos.length > 0" class="mb-8">
+    <h3 class="text-xl font-bold text-gray-700 mb-4">
+      Documentos cargados ({{ documentos.length }})
+    </h3>
+
+    <div class="space-y-3">
+      <div
+        *ngFor="let doc of documentos; let i = index"
+        class="bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-between hover:shadow-md transition-shadow"
+      >
+        <div class="flex items-center flex-1">
+          <svg
+            class="w-8 h-8 text-green-800 mr-4"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+            ></path>
+            <path
+              d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0015.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z"
+            ></path>
+          </svg>
+          <div class="flex-1">
+            <p class="font-semibold text-gray-800">{{ doc.nombre }}</p>
+            <p class="text-sm text-gray-500">
+              {{ doc.tamanio }} - Cargado: {{ doc.fechaCarga }}
+            </p>
+          </div>
+        </div>
+        <button
+          (click)="eliminarDocumento(i)"
+          class="ml-4 text-red-600 hover:text-red-800 hover:bg-red-50 p-2 rounded transition-colors"
+          title="Eliminar documento"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Boton de envio -->
+  <div class="flex gap-4" *ngIf="documentos.length > 0">
+    <button
+      (click)="enviarDocumentos()"
+      [disabled]="cargando"
+      class="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+    >
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+        ></path>
+      </svg>
+      <span *ngIf="!cargando">Enviar documentos de soporte</span>
+      <span *ngIf="cargando">Enviando...</span>
+    </button>
+  </div>
+
+  <!-- Mensaje cuando no hay documentos -->
+  <div *ngIf="documentos.length === 0" class="text-center py-8">
+    <p class="text-gray-500">
+      No hay documentos cargados aun. Selecciona archivos para comenzar.
+    </p>
+  </div>
+</div>
