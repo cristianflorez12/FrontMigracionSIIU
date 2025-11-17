@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -10,12 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
 import { ApiService } from '../../services/api.service';
 
@@ -39,6 +34,8 @@ export interface Participante {
   notaAclaratoria?: string;
   funciones?: string;
   dependencia?: string;
+  grupo?: string;
+  observaciones?: string;
 }
 
 @Component({
@@ -65,6 +62,7 @@ export interface Participante {
 export class ParticipantesComponent implements OnInit {
   private apiService = inject(ApiService);
   private fb = inject(FormBuilder);
+  private cdr = inject(ChangeDetectorRef);
 
   displayedColumns: string[] = [
     'empty',
@@ -81,7 +79,37 @@ export class ParticipantesComponent implements OnInit {
   usandoMock = false;
   projectId = '1';
   participanteEditandoId: string | null = null;
-  formularioParticipante!: FormGroup;
+  participanteSeleccionado: Participante | null = null;
+
+  // Propiedades para mostrar datos dinámicamente
+  nombreProyecto = 'Proyecto prueba';
+  codigoProyecto = '2024-72150';
+  fechaInicio = '20/08/2024';
+  fechaFin = '20/08/2025';
+  duracion = '12 meses';
+
+  nombreParticipante = '';
+  identificacionParticipante = '';
+  fechaInicioParticipante = '';
+  institucionParticipante = '';
+  grupoParticipante = '';
+  rolParticipante = '';
+  vinculoUdeAParticipante = '';
+  totalHorasSemana = 0;
+
+  formularioParticipante = this.fb.group({
+    vinculoUdeA: ['', Validators.required],
+    grupo: [''],
+    rol: ['', Validators.required],
+    dependencia: ['', Validators.required],
+    dedicacionFueraHoras: [0],
+    dedicacionFueraMeses: [0],
+    dedicacionDentroHoras: [0],
+    dedicacionDentroMeses: [0],
+    funciones: ['', Validators.required],
+    observaciones: [''],
+    institucion: [''],
+  });
 
   private mockParticipantes: Participante[] = [
     {
@@ -132,31 +160,8 @@ export class ParticipantesComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarParticipantes();
-    this.inicializarFormulario();
-  }
-
-  private inicializarFormulario(): void {
-    this.formularioParticipante = this.fb.group({
-      nombre: ['', Validators.required],
-      identificacion: ['', Validators.required],
-      fechaIngreso: ['', Validators.required],
-      institucion: ['', Validators.required],
-      grupo: ['', Validators.required],
-      rol: ['', Validators.required],
-      vinculoUdeA: ['', Validators.required],
-      dependencia: ['', Validators.required],
-      dedicacionHorasFuera: this.fb.group({
-        horas: [0],
-        meses: [0],
-      }),
-      dedicacionHorasDentro: this.fb.group({
-        horas: [0],
-        meses: [0],
-      }),
-      participacionBeneficios: [0, Validators.required],
-      notaAclaratoria: [''],
-      funciones: ['', Validators.required],
-    });
+    // Asegurar que el change detection esté activo
+    this.cdr.markForCheck();
   }
 
   private cargarParticipantes(): void {
@@ -186,24 +191,64 @@ export class ParticipantesComponent implements OnInit {
   }
 
   abrirEdicion(participante: Participante): void {
+    this.participanteSeleccionado = participante;
     this.participanteEditandoId = participante.id || null;
+
+    // Llenar datos dinámicos
+    this.nombreParticipante = participante.nombre || '';
+    this.identificacionParticipante = participante.identificacion || '';
+    this.fechaInicioParticipante = participante.fechaIngreso || '';
+    this.institucionParticipante = participante.institucion || '';
+    this.grupoParticipante = participante.grupoInvestigacion || '';
+    this.rolParticipante = participante.rol || '';
+    this.vinculoUdeAParticipante = participante.vinculoUdeA || '';
+
+    // Calcular total de horas
+    const horasFuera = participante.dedicacionHorasFuera?.horas || 0;
+    const horasDentro = participante.dedicacionHorasDentro?.horas || 0;
+    this.totalHorasSemana = horasFuera + horasDentro;
+
+    // Llenar formulario
     this.formularioParticipante.patchValue({
-      nombre: participante.nombre,
-      identificacion: participante.identificacion,
-      institucion: participante.institucion,
-      grupo: participante.grupoInvestigacion,
       rol: participante.rol,
       vinculoUdeA: participante.vinculoUdeA,
       dependencia: participante.dependencia,
-      funciones: participante.funciones,
-      notaAclaratoria: participante.notaAclaratoria,
-      participacionBeneficios: participante.participacionBeneficios,
+      grupo: participante.grupo,
+      institucion: participante.institucion,
+      dedicacionFueraHoras: participante.dedicacionHorasFuera?.horas || 0,
+      dedicacionFueraMeses: participante.dedicacionHorasFuera?.meses || 0,
+      dedicacionDentroHoras: participante.dedicacionHorasDentro?.horas || 0,
+      dedicacionDentroMeses: participante.dedicacionHorasDentro?.meses || 0,
+      funciones: participante.funciones || '',
+      observaciones: participante.observaciones || '',
     });
+
+    // Marcar como pristine para que Material sepa que los campos están inicializados
+    this.formularioParticipante.markAsPristine();
+
+    // Forzar detección de cambios después de un ciclo para permitir que Material se renderice
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 0);
   }
 
   cerrarEdicion(): void {
     this.participanteEditandoId = null;
+    this.participanteSeleccionado = null;
     this.formularioParticipante.reset();
+    // Limpiar datos dinámicos
+    this.nombreParticipante = '';
+    this.identificacionParticipante = '';
+    this.fechaInicioParticipante = '';
+    this.institucionParticipante = '';
+    this.grupoParticipante = '';
+    this.rolParticipante = '';
+    this.vinculoUdeAParticipante = '';
+    this.totalHorasSemana = 0;
+    // Forzar detección de cambios después de un ciclo
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 0);
   }
 
   guardarParticipante(): void {
@@ -212,7 +257,39 @@ export class ParticipantesComponent implements OnInit {
       return;
     }
 
-    const datos = this.formularioParticipante.value;
+    if (!this.participanteSeleccionado?.id) {
+      console.error('No hay participante seleccionado');
+      return;
+    }
+
+    const formValue = this.formularioParticipante.value;
+    const datos = {
+      id: this.participanteSeleccionado.id,
+      nombre: this.participanteSeleccionado.nombre,
+      identificacion: this.participanteSeleccionado.identificacion,
+      institucion: formValue.institucion,
+      grupoInvestigacion: this.participanteSeleccionado.grupoInvestigacion,
+      rol: formValue.rol,
+      vinculoUdeA: formValue.vinculoUdeA,
+      dependencia: formValue.dependencia,
+      grupo: formValue.grupo,
+      dedicacionHorasFuera: {
+        horas: formValue.dedicacionFueraHoras,
+        meses: formValue.dedicacionFueraMeses,
+      },
+      dedicacionHorasDentro: {
+        horas: formValue.dedicacionDentroHoras,
+        meses: formValue.dedicacionDentroMeses,
+      },
+      funciones: formValue.funciones,
+      observaciones: formValue.observaciones,
+      dedicacion: this.participanteSeleccionado.dedicacion,
+      programaApoyado: this.participanteSeleccionado.programaApoyado,
+      email: this.participanteSeleccionado.email,
+      telefono: this.participanteSeleccionado.telefono,
+      direccion: this.participanteSeleccionado.direccion,
+    };
+
     console.log('Guardando participante:', datos);
     this.apiService
       .post<{ success: boolean; message: string }>(

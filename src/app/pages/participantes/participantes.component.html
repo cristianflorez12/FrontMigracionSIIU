@@ -511,20 +511,24 @@
                     <span class="text-xs text-gray-600"
                       >Nombre del proyecto</span
                     >
-                    <p class="font-semibold text-gray-700">_nombreProyecto</p>
+                    <p class="font-semibold text-gray-700">
+                      {{ nombreProyecto }}
+                    </p>
                   </div>
                 </div>
                 <div>
                   <span class="text-xs text-gray-600">Código</span>
-                  <p class="font-semibold text-gray-700">_codigoProyecto</p>
+                  <p class="font-semibold text-gray-700">
+                    {{ codigoProyecto }}
+                  </p>
                 </div>
                 <div>
                   <span class="text-xs text-gray-600">Fecha inicio</span>
-                  <p class="font-semibold text-gray-700">_fechaInicio</p>
+                  <p class="font-semibold text-gray-700">{{ fechaInicio }}</p>
                 </div>
                 <div>
                   <span class="text-xs text-gray-600">Duración</span>
-                  <p class="font-semibold text-gray-700">_duracion</p>
+                  <p class="font-semibold text-gray-700">{{ duracion }}</p>
                 </div>
               </div>
             </div>
@@ -533,18 +537,20 @@
               <div class="grid grid-cols-4 gap-4">
                 <div>
                   <span class="text-xs text-gray-600">Nombre</span>
-                  <p class="font-semibold text-gray-700">_nombreParticipante</p>
+                  <p class="font-semibold text-gray-700">
+                    {{ nombreParticipante }}
+                  </p>
                 </div>
                 <div>
                   <span class="text-xs text-gray-600">Identificación</span>
                   <p class="font-semibold text-gray-700">
-                    _identificacionParticipante
+                    {{ identificacionParticipante }}
                   </p>
                 </div>
                 <div>
                   <span class="text-xs text-gray-600">Fecha inicio</span>
                   <p class="font-semibold text-gray-700">
-                    _fechaInicioParticipante
+                    {{ fechaInicioParticipante }}
                   </p>
                 </div>
               </div>
@@ -553,30 +559,38 @@
                 <div>
                   <span class="text-xs text-gray-600">Institucion</span>
                   <p class="font-semibold text-gray-700">
-                    _institucionParticipante
+                    {{ institucionParticipante }}
                   </p>
                 </div>
                 <div>
                   <span class="text-xs text-gray-600">Grupo</span>
-                  <p class="font-semibold text-gray-700">_grupoParticipante</p>
+                  <p class="font-semibold text-gray-700">
+                    {{ grupoParticipante }}
+                  </p>
                 </div>
                 <div>
                   <span class="text-xs text-gray-600">Rol</span>
-                  <p class="font-semibold text-gray-700">_rolParticipante</p>
+                  <p class="font-semibold text-gray-700">
+                    {{ rolParticipante }}
+                  </p>
                 </div>
                 <div>
                   <span class="text-xs text-gray-600"
                     >Cínculo contractual UdeA</span
                   >
                   <p class="font-semibold text-gray-700">
-                    _vinculoUdeAParticipante
+                    {{ vinculoUdeAParticipante }}
                   </p>
                 </div>
               </div>
 
               <div class="grid grid-cols-4 gap-4">
                 <div class="mb-6">
-                  <mat-form-field appearance="fill" class="w-full">
+                  <mat-form-field
+                    appearance="fill"
+                    floatLabel="always"
+                    class="w-full"
+                  >
                     <mat-label>Institución</mat-label>
                     <mat-select formControlName="institucion">
                       <mat-option value="udea">UdeA</mat-option>
@@ -585,7 +599,11 @@
                 </div>
 
                 <div class="mb-6">
-                  <mat-form-field appearance="fill" class="w-full">
+                  <mat-form-field
+                    appearance="fill"
+                    floatLabel="always"
+                    class="w-full"
+                  >
                     <mat-label>Grupo</mat-label>
                     <mat-select formControlName="grupo">
                       <mat-option value="grupo1">Grupo 1</mat-option>
@@ -595,7 +613,11 @@
                   </mat-form-field>
                 </div>
                 <div class="mb-6">
-                  <mat-form-field appearance="fill" class="w-full">
+                  <mat-form-field
+                    appearance="fill"
+                    floatLabel="always"
+                    class="w-full"
+                  >
                     <mat-label>Rol</mat-label>
                     <mat-select formControlName="rol">
                       <mat-option value="lider">Lider</mat-option>
@@ -605,7 +627,11 @@
                 </div>
 
                 <div class="mb-6">
-                  <mat-form-field appearance="fill" class="w-full">
+                  <mat-form-field
+                    appearance="fill"
+                    floatLabel="always"
+                    class="w-full"
+                  >
                     <mat-label>Vínculo contractual UdeA</mat-label>
                     <mat-select formControlName="vinculoUdeA">
                       <mat-option value="docente"
@@ -627,6 +653,7 @@
                     <div class="flex justify-content-between">
                       <p>Horas</p>
                       <input
+                        formControlName="dedicacionFueraHoras"
                         class="broder bg-gray-200 !w-20 ml-auto mb-2"
                         matInput
                         type="number"
@@ -635,6 +662,7 @@
                     <div class="flex justify-content-between">
                       <p>Meses</p>
                       <input
+                        formControlName="dedicacionFueraMeses"
                         class="broder bg-gray-200 !w-20 ml-auto mb-2"
                         matInput
                         type="number"
@@ -646,17 +674,21 @@
                     <div class="flex justify-content-between">
                       <p>Horas</p>
                       <input
+                        formControlName="dedicacionFueraHoras"
                         class="broder bg-gray-200 !w-20 ml-auto mb-2"
                         matInput
                         type="number"
+                        readonly
                       />
                     </div>
                     <div class="flex justify-content-between">
                       <p>Meses</p>
                       <input
+                        formControlName="dedicacionFueraMeses"
                         class="broder bg-gray-200 !w-20 ml-auto mb-2"
                         matInput
                         type="number"
+                        readonly
                       />
                     </div>
                   </div>
@@ -670,6 +702,7 @@
                     <div class="flex justify-content-between">
                       <p>Horas</p>
                       <input
+                        formControlName="dedicacionDentroHoras"
                         class="broder bg-gray-200 !w-20 ml-auto mb-2"
                         matInput
                         type="number"
@@ -678,6 +711,7 @@
                     <div class="flex justify-content-between">
                       <p>Meses</p>
                       <input
+                        formControlName="dedicacionDentroMeses"
                         class="broder bg-gray-200 !w-20 ml-auto mb-2"
                         matInput
                         type="number"
@@ -689,17 +723,21 @@
                     <div class="flex justify-content-between">
                       <p>Horas</p>
                       <input
+                        formControlName="dedicacionDentroHoras"
                         class="broder bg-gray-200 !w-20 ml-auto mb-2"
                         matInput
                         type="number"
+                        readonly
                       />
                     </div>
                     <div class="flex justify-content-between">
                       <p>Meses</p>
                       <input
+                        formControlName="dedicacionDentroMeses"
                         class="broder bg-gray-200 !w-20 ml-auto mb-2"
                         matInput
                         type="number"
+                        readonly
                       />
                     </div>
                   </div>
@@ -707,13 +745,85 @@
               </div>
             </div>
 
+            <div>
+              <p>% Participación y Beneficios P&B</p>
+              <div class="border grid grid-cols-1 gap-4 mt-4">
+                <div class="flex justify-content-between mt-4 mx-4">
+                  <p class="w-1/3">% Participación y beneficios (%P&B)</p>
+                  <input
+                    class="broder bg-gray-200 !w-20 mr-auto mb-2"
+                    matInput
+                    type="number"
+                  />
+                </div>
+                <div class="flex justify-content-between mx-4">
+                  <p class="w-1/3">Nota aclaratoria P&B</p>
+                  <textarea
+                    matInput
+                    class="broder bg-gray-200 !w-2/3 ml-auto mb-2 pr-8"
+                    formControlName="notaAclaratoria"
+                    rows="2"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <p class="w-1/3 mt-8">Funciones</p>
+            <textarea
+              matInput
+              class="border bg-gray-300 !w-2/3 ml-auto mb-2 pr-8"
+              rows="4"
+            ></textarea>
+
+            <div class="my-8 border-t border-gray-300">
+              <p class="mt-4 mb-8">Defina el vínculo y el rol</p>
+
+              <div
+                class="flex gap-4 mb-6"
+                formGroupName="dedicacionHorasDentro"
+              >
+                <mat-form-field
+                  appearance="fill"
+                  floatLabel="always"
+                  class="w-1/3"
+                >
+                  <mat-label>Vínculo UdeA</mat-label>
+                  <mat-select>
+                    <mat-option value="docenteCatedra"
+                      >Docente de cátedra</mat-option
+                    >
+                    <mat-option value="docenteInvestigador"
+                      >Docente Investigador</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field
+                  appearance="fill"
+                  floatLabel="always"
+                  class="w-2/3"
+                >
+                  <mat-label>Rol</mat-label>
+                  <mat-select>
+                    <mat-option value="investigadorPrincipal"
+                      >Investigador principal</mat-option
+                    >
+                    <mat-option value="estudianteInvestigador"
+                      >Estudiante Investigador</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
             <div class="mb-8">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">
-                Defina la dependencia y el programa
-              </h3>
+              <p class="mt-4 mb-8">Defina la dependencia y el programa</p>
 
               <div class="grid grid-cols-2 gap-4 mb-6">
-                <mat-form-field appearance="fill" class="w-full">
+                <mat-form-field
+                  appearance="fill"
+                  floatLabel="always"
+                  class="w-full"
+                >
                   <mat-label>Dependencia</mat-label>
                   <mat-select formControlName="dependencia">
                     <mat-option value="departamento"
@@ -723,88 +833,89 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-
-              <div class="grid grid-cols-2 gap-4 mb-6">
-                <mat-form-field appearance="fill" class="w-full">
-                  <mat-label>Grupo</mat-label>
-                  <input matInput formControlName="grupo" />
-                </mat-form-field>
-              </div>
             </div>
 
-            <div class="mb-8">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">
-                Dedicación horaria por fuera del plan de trabajo
-              </h3>
-
-              <div
-                class="grid grid-cols-2 gap-4 mb-6"
-                formGroupName="dedicacionHorasFuera"
-              >
-                <mat-form-field appearance="fill" class="w-full">
-                  <mat-label>Horas</mat-label>
-                  <input matInput type="number" formControlName="horas" />
-                </mat-form-field>
-                <mat-form-field appearance="fill" class="w-full">
-                  <mat-label>Meses</mat-label>
-                  <input matInput type="number" formControlName="meses" />
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="mb-8">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">
-                Dedicación horaria por dentro del plan de trabajo
-              </h3>
+            <div class="my-8 border-t border-gray-300">
+              <p class="mt-4 mb-8">Dedicación por fuera del plan de trabajo</p>
 
               <div
                 class="grid grid-cols-2 gap-4 mb-6"
                 formGroupName="dedicacionHorasDentro"
               >
-                <mat-form-field appearance="fill" class="w-full">
+                <mat-form-field
+                  appearance="fill"
+                  floatLabel="always"
+                  class="w-full"
+                >
                   <mat-label>Horas por semana</mat-label>
                   <input matInput type="number" formControlName="horas" />
                 </mat-form-field>
-                <mat-form-field appearance="fill" class="w-full">
+                <mat-form-field
+                  appearance="fill"
+                  floatLabel="always"
+                  class="w-full"
+                >
                   <mat-label>Meses</mat-label>
                   <input matInput type="number" formControlName="meses" />
                 </mat-form-field>
               </div>
             </div>
 
-            <div class="mb-8">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">
-                % Participación y Beneficios (P&B)
-              </h3>
+            <div class="my-8 border-t border-gray-300">
+              <p class="mt-4 mb-8">Dedicación dentro del plan de trabajo</p>
 
-              <mat-form-field appearance="fill" class="w-full mb-6">
-                <mat-label>% Participación y Beneficios</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  formControlName="participacionBeneficios"
-                />
-              </mat-form-field>
-
-              <mat-form-field appearance="fill" class="w-full mb-6">
-                <mat-label>Nota aclaratoria P&B</mat-label>
-                <textarea
-                  matInput
-                  formControlName="notaAclaratoria"
-                  rows="3"
-                ></textarea>
-              </mat-form-field>
+              <div
+                class="grid grid-cols-2 gap-4 mb-6"
+                formGroupName="dedicacionHorasDentro"
+              >
+                <mat-form-field
+                  appearance="fill"
+                  floatLabel="always"
+                  class="w-full"
+                >
+                  <mat-label>Horas por semana</mat-label>
+                  <input matInput type="number" formControlName="horas" />
+                </mat-form-field>
+                <mat-form-field
+                  appearance="fill"
+                  floatLabel="always"
+                  class="w-full"
+                >
+                  <mat-label>Meses</mat-label>
+                  <input matInput type="number" formControlName="meses" />
+                </mat-form-field>
+              </div>
             </div>
 
-            <div class="mb-8">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">Función</h3>
+            <div class="border pl-8 py-4">
+              <p>Total de horas/semana en el proyecto</p>
+              <p class="text-lg">{{ totalHorasSemana }}</p>
+            </div>
 
-              <mat-form-field appearance="fill" class="w-full">
+            <div class="my-8">
+              <mat-form-field
+                appearance="fill"
+                floatLabel="always"
+                class="w-full"
+              >
                 <mat-label>Función</mat-label>
                 <textarea
                   matInput
                   formControlName="funciones"
-                  rows="4"
+                  rows="3"
+                ></textarea>
+              </mat-form-field>
+
+              <mat-form-field
+                appearance="fill"
+                floatLabel="always"
+                class="w-full"
+              >
+                <mat-label>Observaciones</mat-label>
+                <textarea
+                  matInput
+                  formControlName="observaciones"
+                  rows="3"
                 ></textarea>
               </mat-form-field>
             </div>
@@ -820,9 +931,34 @@
               <button
                 type="button"
                 (click)="guardarParticipante()"
-                class="px-6 py-2 bg-lime-500 text-white rounded hover:bg-lime-600 font-semibold"
+                class="bg-lime-200 w-40 mr-4 text-start flex p-0 m-0 justify-between shadow-md"
               >
-                EDITAR PARTICIPANTE
+                <p class="pl-8 font-bold text-lime-600 mt-3">GUARDAR</p>
+                <div
+                  class="p-0 m-0 bg-lime-600 text-white w-10 h-10 text-center flex"
+                >
+                  <svg
+                    fill="#000000"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="text-white m-auto !w-6 !h-6"
+                  >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></g>
+                    <g
+                      id="SVGRepo_iconCarrier"
+                      class="text-white m-auto w-10 h-10"
+                    >
+                      <path
+                        d="M21,20V8.414a1,1,0,0,0-.293-.707L16.293,3.293A1,1,0,0,0,15.586,3H4A1,1,0,0,0,3,4V20a1,1,0,0,0,1,1H20A1,1,0,0,0,21,20ZM9,8h4a1,1,0,0,1,0,2H9A1,1,0,0,1,9,8Zm7,11H8V15a1,1,0,0,1,1-1h6a1,1,0,0,1,1,1Z"
+                      ></path>
+                    </g>
+                  </svg>
+                </div>
               </button>
             </div>
           </form>
