@@ -1,19 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatTableModule } from '@angular/material/table';
-import { ApiService } from '../../services/api.service';
 import {
-  FormsModule,
   FormBuilder,
   FormGroup,
-  Validators,
-  ReactiveFormsModule,
+  FormsModule,
+  ReactiveFormsModule
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ApiService } from '../../services/api.service';
+import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
 
 @Component({
   selector: 'app-proyectos',
@@ -32,29 +31,29 @@ import { Router } from '@angular/router';
   styleUrls: ['./proyectos.component.scss'],
 })
 export class ProyectosComponent implements OnInit {
-  displayedColumns: string[] = [
+
+  // Columnas que EXISTEN realmente en el backend
+  displayedColumns = [
     'codigo',
-    'proyecto',
+    'centroGestion',
     'estado',
-    'nivel',
     'convocatoria',
-    'responsable',
-    'ipCoordinador',
-    'tipoProyecto',
-    'acciones',
+    'procesoSeleccion',
+    'subtipoProyecto'
   ];
 
   dataSource: any[] = [];
 
   proyectoForm!: FormGroup;
 
+  // Alineado con backend
   initialValues = {
-    codigoProyecto: '',
+    codigo: '',
     centroGestion: '',
     estado: '',
     convocatoria: '',
     procesoSeleccion: '',
-    tipoProyecto: '',
+    subtipoProyecto: ''
   };
 
   constructor(
@@ -64,71 +63,87 @@ export class ProyectosComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const endpoint = 'https://waitingforendpont.com/users';
-    this.api.get<any[]>(endpoint).subscribe({
-      next: (data) => (this.dataSource = data),
-      error: (err) => {
-        console.error('Error cargando proyectos:', err);
-        this.dataSource = [
-          {
-            id: '1',
-            codigo: 'P001',
-            proyecto: 'Proyecto de Investigación A',
-            estado: 'Activo',
-            nivel: 'Nacional',
-            convocatoria: '2024',
-            responsable: 'Dr. Juan Pérez',
-            ipCoordinador: '192.168.1.1',
-            tipoProyecto: 'Científico',
-          },
-        ];
-      },
-    });
+    this.cargarProyectos();
 
     this.proyectoForm = this.fb.group({
-      codigoProyecto: [''],
+      codigo: [''],
       centroGestion: [''],
       estado: [''],
       convocatoria: [''],
       procesoSeleccion: [''],
-      tipoProyecto: [''],
+      subtipoProyecto: ['']
     });
   }
 
-  onSubmit() {
-    if (this.proyectoForm.invalid) {
-      this.proyectoForm.markAllAsTouched();
-      return;
-    }
+  // --------------------------------------------------------
+  // GET /api/proyectos
+  // --------------------------------------------------------
+  cargarProyectos() {
+    this.api.get<any>('/api/proyectos').subscribe({
+      next: (resp) => {
+        console.log('Respuesta GET:', resp);
 
-    const body = this.proyectoForm.value;
-    console.log('Formulario enviado:', body);
-    this.api.post<any[]>('/api/proyectos', body).subscribe({
-      next: (data) => (this.dataSource = data),
+        // Corrige la carga: resp es un ARRAY, no resp.data
+        this.dataSource = Array.isArray(resp) ? resp : (resp?.data ?? []);
+      },
       error: (err) => {
         console.error('Error cargando proyectos:', err);
+
+        // Mock de respaldo
         this.dataSource = [
           {
-            id: '1',
             codigo: 'P001',
-            proyecto: 'Proyecto de Investigación A',
+            centroGestion: 'CG-01',
             estado: 'Activo',
-            nivel: 'Nacional',
             convocatoria: '2024',
-            responsable: 'Dr. Juan Pérez',
-            ipCoordinador: '192.168.1.1',
-            tipoProyecto: 'Científico',
+            procesoSeleccion: 'Abierto',
+            subtipoProyecto: 'Investigación',
           },
         ];
       },
     });
   }
 
+  // --------------------------------------------------------
+  // POST /api/proyectos/filtrar
+  // --------------------------------------------------------
+onSubmit() {
+ 
+  const filtros = this.proyectoForm.value;
+  
+  const filtrosLimpios = Object.fromEntries(
+    Object.entries(filtros).filter(([_, v]) => v !== '' && v !== null)
+  );
+
+  console.log('Enviando filtros:', filtrosLimpios);
+  console.log('Enviando filtros:', filtrosLimpios);
+
+  this.api.post<any>('/api/proyectos/filtrar', filtrosLimpios).subscribe({
+    next: (resp) => {
+      console.log('Respuesta filtro:', resp);
+
+      this.dataSource = Array.isArray(resp)
+        ? resp
+        : (resp.data ?? []);
+
+    },
+    error: (err) => {
+      console.error('Error filtrando proyectos:', err);
+    }
+  });
+}
+  // --------------------------------------------------------
+  // Reset
+  // --------------------------------------------------------
   onReset() {
     this.proyectoForm.reset(this.initialValues);
   }
 
-  onRowClick(projectId: string) {
-    this.router.navigate(['/proyecto', projectId, 'inicio-formal']);
+  // --------------------------------------------------------
+  // Navegar
+  // --------------------------------------------------------
+  onRowClick(codigoProyecto: string) {
+    this.router.navigate(['/proyecto', codigoProyecto, 'inicio-formal']);
   }
+
 }

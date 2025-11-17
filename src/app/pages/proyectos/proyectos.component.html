@@ -1,10 +1,6 @@
 <div class="w-full h-full mt-20 flex">
   <div class="w-2/6 h- pr-4">
-    <form
-      [formGroup]="proyectoForm"
-      (ngSubmit)="onSubmit()"
-      class="p-4 max-w-md mx-auto flex flex-col gap-4 filtrar"
-    >
+    <div class="p-4 max-w-md mx-auto flex flex-col gap-4 filtrar">
       <p class="text-lg text-lime-700 text-semibold">Seguimiento a proyectos</p>
       <div class="my-4 relative">
         <svg
@@ -109,7 +105,7 @@
               fill="#94d1e0"
             ></path>
             <path
-              d="M53.43 108.62c-.67.24-1.36.57-1.7 1.19c-.12.23-.19.49-.14.75c.08.38.43.65.78.82c.7.34 1.49.43 2.26.44c1.59.02 3.17-.28 4.74-.58c.47-.09.95-.18 1.37-.41c.42-.23.78-.62.85-1.09c.1-.63-.35-1.24-.9-1.54c-1.9-1.04-5.35-.26-7.26.42z"
+              d="M53.43 108.62c-.67.24-1.36.57-1.7 1.19c-.12.23-.19.49-.14.75c.08.38.43.65.78.82c.7.34 1.49.43 2.26.44c1.59.02 3.17-.28 4.74-.58c.47-.09.95-.18 1.37-.41c.42-.23.78-.62.85-1.09c.1-.63-.35-1.24-.90-1.54c-1.9-1.04-5.35-.26-7.26.42z"
               fill="#94d1e0"
             ></path>
             <path
@@ -126,88 +122,95 @@
           class="py-0 pl-20 h-16"
         />
       </div>
-      <div class="mt-8">
+      <div class="mt-8" [formGroup]="proyectoForm">
+
+  <!-- Código proyecto -->
         <mat-form-field class="w-1/2">
           <mat-label>Código proyecto</mat-label>
           <input
             matInput
-            placeholder="Codigo proyecto"
-            formControlName="codigoProyecto"
+            placeholder="Código proyecto"
+            formControlName="codigo"
           />
         </mat-form-field>
+
+        <!-- Centro de gestión -->
         <mat-form-field class="w-full">
           <mat-label>Centro de gestión</mat-label>
-          <select matNativeControl required formControlName="centroGestion">
-            <option value="centro1">Centro 1</option>
-            <option value="centro2">Centro 2</option>
-            <option value="centro3">Centro 3</option>
-            <option value="centro4">Centro 4</option>
+          <select matNativeControl formControlName="centroGestion">
+            <option value="">Seleccione...</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="300">300</option>
+            <option value="400">400</option>
           </select>
         </mat-form-field>
+
+        <!-- Estado -->
         <mat-form-field class="w-full">
           <mat-label>Estado</mat-label>
           <select matNativeControl formControlName="estado">
-            <option value="estado1">Estado 1</option>
-            <option value="estado2">Estado 2</option>
-            <option value="estado3">Estado 3</option>
-            <option value="estado4">Estado 4</option>
+            <option value="">Seleccione...</option>
+            <option value="ACTIVO">Activo</option>
+            <option value="APROBADO">Aprobado</option>
+            <option value="RECHAZADO">Rechazado</option>
           </select>
         </mat-form-field>
+
+        <!-- Convocatoria -->
         <mat-form-field class="w-full">
           <mat-label>Convocatoria</mat-label>
           <select matNativeControl formControlName="convocatoria">
-            <option value="convocatoria1">Convocatoria 1</option>
-            <option value="convocatoria2">Convocatoria 2</option>
-            <option value="convocatoria3">Convocatoria 3</option>
+            <option value="">Seleccione...</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
           </select>
         </mat-form-field>
+
+        <!-- Proceso de selección -->
         <mat-form-field class="w-full">
           <mat-label>Proceso de selección</mat-label>
           <select matNativeControl formControlName="procesoSeleccion">
-            <option value="proceso1">Proceso 1</option>
-            <option value="proceso2">Proceso 2</option>
-            <option value="proceso3">Proceso 3</option>
+            <option value="">Seleccione...</option>
+            <option value="1001">1001</option>
+            <option value="1002">1002</option>
+            <option value="1003">1003</option>
           </select>
         </mat-form-field>
+
+        <!-- Tipo proyecto -->
         <mat-form-field class="w-full">
           <mat-label>Tipo de proyecto</mat-label>
-          <select matNativeControl formControlName="tipoProyecto">
-            <option value="tipo1">Tipo 1</option>
-            <option value="tipo2">Tipo 2</option>
-            <option value="tipo3">Tipo 3</option>
+          <select matNativeControl formControlName="subtipoProyecto">
+            <option value="">Seleccione...</option>
+            <option value="1">Tipo 1</option>
+            <option value="2">Tipo 2</option>
+            <option value="3">Tipo 3</option>
           </select>
         </mat-form-field>
       </div>
       <div class="flex mb-8">
         <button
-          z-button
-          zShape="square"
-          zSize="lg"
-          class="bg-white w-40 mr-4 text-start flex p-0 m-0 ml-8 justify-between shadow-md border"
           type="button"
+          class="bg-white w-40 mr-4 text-start flex p-0 m-0 ml-8 justify-between shadow-md border cursor-pointer"
           (click)="onReset()"
         >
-          <p class="pl-6 font-bold text-black mt-3">LIMPIAR FILTROS</p>
+          <p class="pl-6 font-bold text-black mt-3 pointer-events-none">LIMPIAR FILTROS</p>
         </button>
         <button
-          mat-raised-button
-          z-button
-          zShape="square"
-          zSize="lg"
-          class="bg-lime-200 w-40 mr-4 text-start flex p-0 m-0 ml-8 justify-between shadow-md"
-          type="submit"
+          type="button"
+          class="bg-lime-200 w-40 mr-4 text-start flex p-0 m-0 ml-8 justify-between shadow-md cursor-pointer"
+          (click)="onSubmit()"
         >
-          <p class="pl-8 font-bold text-lime-600 mt-3">CONSULTAR</p>
-          <div
-            class="p-0 m-0 bg-lime-600 text-white w-10 h-10 text-center flex"
-          >
+          <p class="pl-8 font-bold text-lime-600 mt-3 pointer-events-none">CONSULTAR</p>
+          <div class="p-0 m-0 bg-lime-600 text-white w-10 h-10 text-center flex pointer-events-none">
             <svg
               width="40px"
               height="40px"
               viewBox="0 0 32 32"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              class="ml-1 mt-1"
+              class="ml-1 mt-1 pointer-events-none"
             >
               <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
               <g
@@ -228,12 +231,12 @@
           </div>
         </button>
       </div>
-    </form>
+    </div>
   </div>
   <div class="pl-4 bg-gray-100 w-4/6">
     <p class="text-2xl text-lime-700 text-semibold my-8">Búsqueda proyectos</p>
     <div class="flex justify-between text-gray-500">
-      <p>Proyectos encontrados ()</p>
+      <p>Proyectos encontrados ({{ dataSource.length }})</p>
       <div class="flex">
         <div class="mx-4 flex">
           <svg
@@ -296,161 +299,55 @@
         </div>
       </div>
     </div>
-    <div class="py-8 pl-0 pr-4 w-full">
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-        <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
+<div class="py-8 pl-0 pr-4 w-full">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        <ng-container matColumnDef="codigo">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="!bg-teal-600 !text-white h-12 my-auto"
-          >
-            Codigo
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            (click)="onRowClick(element.id)"
-          >
-            {{ element.codigo }}
-          </td>
-        </ng-container>
+    <!-- Código -->
+    <ng-container matColumnDef="codigo">
+      <th mat-header-cell *matHeaderCellDef> Código </th>
+      <td mat-cell *matCellDef="let row">{{ row.codigo }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="proyecto">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="!bg-teal-600 !text-white h-12 my-auto"
-          >
-            Proyecto
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            (click)="onRowClick(element.id)"
-          >
-            {{ element.proyecto }}
-          </td>
-        </ng-container>
+    <!-- Centro Gestión -->
+    <ng-container matColumnDef="centroGestion">
+      <th mat-header-cell *matHeaderCellDef> Centro Gestión </th>
+      <td mat-cell *matCellDef="let row">{{ row.centroGestion || '-' }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="estado">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="!bg-teal-600 !text-white h-12 my-auto"
-          >
-            Estado
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            (click)="onRowClick(element.id)"
-          >
-            {{ element.estado }}
-          </td>
-        </ng-container>
+    <!-- Estado -->
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let row">{{ row.estado }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="nivel">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="!bg-teal-600 !text-white h-12 my-auto"
-          >
-            Nivel
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            (click)="onRowClick(element.id)"
-          >
-            {{ element.nivel }}
-          </td>
-        </ng-container>
+    <!-- Convocatoria -->
+    <ng-container matColumnDef="convocatoria">
+      <th mat-header-cell *matHeaderCellDef> Convocatoria </th>
+      <td mat-cell *matCellDef="let row">{{ row.convocatoria }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="convocatoria">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="!bg-teal-600 !text-white h-12 my-auto"
-          >
-            Convocatoria/Proceso de selección
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            (click)="onRowClick(element.id)"
-          >
-            {{ element.convocatoria }}
-          </td>
-        </ng-container>
+    <!-- Proceso Selección -->
+    <ng-container matColumnDef="procesoSeleccion">
+      <th mat-header-cell *matHeaderCellDef> Proceso Selección </th>
+      <td mat-cell *matCellDef="let row">{{ row.procesoSeleccion }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="responsable">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="!bg-teal-600 !text-white h-12 my-auto"
-          >
-            Responsable
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            (click)="onRowClick(element.id)"
-          >
-            {{ element.responsable }}
-          </td>
-        </ng-container>
+    <!-- Subtipo Proyecto -->
+    <ng-container matColumnDef="subtipoProyecto">
+      <th mat-header-cell *matHeaderCellDef> Tipo </th>
+      <td mat-cell *matCellDef="let row">{{ row.subtipoProyecto }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="ipCoordinador">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="!bg-teal-600 !text-white h-12 my-auto"
-          >
-            IP o coordinador
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            (click)="onRowClick(element.id)"
-          >
-            {{ element.ipCoordinador }}
-          </td>
-        </ng-container>
+    <!-- Header + Rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr 
+      mat-row 
+      *matRowDef="let row; columns: displayedColumns;"
+      (click)="onRowClick(row.codigo)"
+      class="cursor-pointer hover:bg-gray-100"
+    ></tr>
 
-        <ng-container matColumnDef="tipoProyecto">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="!bg-teal-600 !text-white h-12 my-auto"
-          >
-            Tipo proyecto
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            (click)="onRowClick(element.id)"
-          >
-            {{ element.tipoProyecto }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="acciones">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="!bg-teal-600 !text-white h-12 my-auto"
-          >
-            Acciones
-          </th>
-          <td mat-cell *matCellDef="let element"></td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-    </div>
-  </div>
+  </table>
+</div>
+</div>
 </div>
