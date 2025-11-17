@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -18,6 +19,7 @@ import {
 } from '@angular/forms';
 import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
 import { ApiService } from '../../services/api.service';
+import { ProjectContextService } from '../../services/project-context.service';
 
 export interface Participante {
   id?: string;
@@ -67,6 +69,8 @@ export interface Participante {
 export class ParticipantesComponent implements OnInit {
   private apiService = inject(ApiService);
   private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private projectContext = inject(ProjectContextService);
 
   displayedColumns: string[] = [
     'empty',
@@ -81,7 +85,7 @@ export class ParticipantesComponent implements OnInit {
   isLoading = true;
   errorMessage = '';
   usandoMock = false;
-  projectId = '1';
+  projectId: string = '';
   participanteEditandoId: string | null = null;
   formularioParticipante!: FormGroup;
   participanteSeleccionado: Participante | null = null;
@@ -148,10 +152,14 @@ export class ParticipantesComponent implements OnInit {
       direccion: 'Diagonal 45 #20-30, Cúcuta',
     },
   ];
-
   ngOnInit(): void {
-    this.cargarParticipantes();
-    this.inicializarFormulario();
+    this.route.params.subscribe((params) => {
+      this.projectId = params['projectId'] || '1';
+      this.projectContext.setProjectId(this.projectId);
+
+      this.cargarParticipantes();
+      this.inicializarFormulario();
+    });
   }
 
   private inicializarFormulario(): void {

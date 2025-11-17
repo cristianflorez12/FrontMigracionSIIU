@@ -309,7 +309,11 @@
           >
             Codigo
           </th>
-          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            (click)="onRowClick(element.id)"
+          >
             {{ element.codigo }}
           </td>
         </ng-container>
@@ -322,7 +326,11 @@
           >
             Proyecto
           </th>
-          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            (click)="onRowClick(element.id)"
+          >
             {{ element.proyecto }}
           </td>
         </ng-container>
@@ -335,7 +343,11 @@
           >
             Estado
           </th>
-          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            (click)="onRowClick(element.id)"
+          >
             {{ element.estado }}
           </td>
         </ng-container>
@@ -348,7 +360,11 @@
           >
             Nivel
           </th>
-          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            (click)="onRowClick(element.id)"
+          >
             {{ element.nivel }}
           </td>
         </ng-container>
@@ -361,7 +377,11 @@
           >
             Convocatoria/Proceso de selección
           </th>
-          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            (click)="onRowClick(element.id)"
+          >
             {{ element.convocatoria }}
           </td>
         </ng-container>
@@ -374,7 +394,11 @@
           >
             Responsable
           </th>
-          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            (click)="onRowClick(element.id)"
+          >
             {{ element.responsable }}
           </td>
         </ng-container>
@@ -387,7 +411,11 @@
           >
             IP o coordinador
           </th>
-          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            (click)="onRowClick(element.id)"
+          >
             {{ element.ipCoordinador }}
           </td>
         </ng-container>
@@ -400,7 +428,11 @@
           >
             Tipo proyecto
           </th>
-          <td mat-cell *matCellDef="let element" (click)="onRowClick()">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            (click)="onRowClick(element.id)"
+          >
             {{ element.tipoProyecto }}
           </td>
         </ng-container>

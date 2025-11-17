@@ -14,6 +14,8 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ActivatedRoute } from '@angular/router';
+import { ProjectContextService } from '../../services/project-context.service';
 
 export interface Proyecto {
   id?: string;
@@ -47,12 +49,14 @@ export interface Proyecto {
 export class InicioFormalComponent implements OnInit {
   private fb = inject(FormBuilder);
   private api = inject(ApiService);
+  private route = inject(ActivatedRoute);
+  private projectContext = inject(ProjectContextService);
 
   InicioForm!: FormGroup;
   isLoading = true;
   errorMessage = '';
   usandoMock = false;
-  projectId = '1'; // Este ID debería venir de rutas o parámetros
+  projectId: string = '';
 
   private mockProyecto: Proyecto = {
     id: '1',
@@ -75,8 +79,13 @@ export class InicioFormalComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.initializeForm();
-    this.cargarProyecto();
+    this.route.params.subscribe((params) => {
+      this.projectId = params['projectId'] || '1';
+      this.projectContext.setProjectId(this.projectId);
+
+      this.initializeForm();
+      this.cargarProyecto();
+    });
   }
 
   private initializeForm(): void {

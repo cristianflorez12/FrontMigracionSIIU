@@ -71,6 +71,7 @@ export class ProyectosComponent implements OnInit {
         console.error('Error cargando proyectos:', err);
         this.dataSource = [
           {
+            id: '1',
             codigo: 'P001',
             proyecto: 'Proyecto de Investigación A',
             estado: 'Activo',
@@ -108,6 +109,7 @@ export class ProyectosComponent implements OnInit {
         console.error('Error cargando proyectos:', err);
         this.dataSource = [
           {
+            id: '1',
             codigo: 'P001',
             proyecto: 'Proyecto de Investigación A',
             estado: 'Activo',
@@ -126,7 +128,7 @@ export class ProyectosComponent implements OnInit {
     this.proyectoForm.reset(this.initialValues);
   }
 
-  onRowClick() {
-    this.router.navigate(['/inicio-formal']);
+  onRowClick(projectId: string) {
+    this.router.navigate(['/proyecto', projectId, 'inicio-formal']);
   }
 }

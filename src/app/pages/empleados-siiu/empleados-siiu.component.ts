@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
@@ -8,6 +8,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
 import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
 import { ApiService } from '../../services/api.service';
+import { ActivatedRoute } from '@angular/router';
+import { ProjectContextService } from '../../services/project-context.service';
 
 export interface Empleado {
   id?: string;
@@ -47,8 +49,10 @@ export interface RegistroEmpleado {
   templateUrl: './empleados-siiu.component.html',
   styleUrl: './empleados-siiu.component.scss',
 })
-export class EmpleadosSIIUComponent {
+export class EmpleadosSIIUComponent implements OnInit {
   private apiService = inject(ApiService);
+  private route = inject(ActivatedRoute);
+  private projectContext = inject(ProjectContextService);
 
   showEmpleado = false;
   identificacion = '';
@@ -59,6 +63,7 @@ export class EmpleadosSIIUComponent {
   errorMessage = '';
   usandoMock = false;
   empleadoSeleccionado: Empleado | null = null;
+  projectId: string = '';
   rolSeleccionado = '';
   centroSeleccionado = '';
   isSaving = false;
@@ -95,6 +100,13 @@ export class EmpleadosSIIUComponent {
       celular: '3215555555',
     },
   ];
+
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.projectId = params['projectId'] || '1';
+      this.projectContext.setProjectId(this.projectId);
+    });
+  }
 
   toggleEmpleado(): void {
     this.showEmpleado = !this.showEmpleado;

@@ -63,31 +63,47 @@
   <mat-stepper headerPosition="bottom" #stepper class="custom-stepper">
     <mat-step>
       <ng-template matStepLabel>
-        <a routerLink="/inicio-formal" class="step-link">Información general</a>
+        <a
+          [routerLink]="['/proyecto', projectId, 'inicio-formal']"
+          class="step-link"
+          >Información general</a
+        >
       </ng-template>
     </mat-step>
 
     <mat-step>
       <ng-template matStepLabel>
-        <a routerLink="/participantes" class="step-link">Participantes</a>
+        <a
+          [routerLink]="['/proyecto', projectId, 'participantes']"
+          class="step-link"
+          >Participantes</a
+        >
       </ng-template>
     </mat-step>
 
     <mat-step>
       <ng-template matStepLabel>
-        <a routerLink="/compromisos" class="step-link">Compromisos</a>
+        <a
+          [routerLink]="['/proyecto', projectId, 'compromisos']"
+          class="step-link"
+          >Compromisos</a
+        >
       </ng-template>
     </mat-step>
 
     <mat-step>
       <ng-template matStepLabel>
-        <a routerLink="/etapas" class="step-link">Etapas</a>
+        <a [routerLink]="['/proyecto', projectId, 'etapas']" class="step-link"
+          >Etapas</a
+        >
       </ng-template>
     </mat-step>
 
     <mat-step>
       <ng-template matStepLabel>
-        <a routerLink="/generar-acta-inicio" class="step-link"
+        <a
+          [routerLink]="['/proyecto', projectId, 'generar-acta-inicio']"
+          class="step-link"
           >Generar acta de inicio</a
         >
       </ng-template>
@@ -95,7 +111,9 @@
 
     <mat-step>
       <ng-template matStepLabel>
-        <a routerLink="/documentos-soporte" class="step-link"
+        <a
+          [routerLink]="['/proyecto', projectId, 'documentos-soporte']"
+          class="step-link"
           >Documento Soporte</a
         >
       </ng-template>
@@ -103,7 +121,9 @@
 
     <mat-step>
       <ng-template matStepLabel>
-        <a routerLink="/cerrar-inicio-formal" class="step-link"
+        <a
+          [routerLink]="['/proyecto', projectId, 'cerrar-inicio-formal']"
+          class="step-link"
           >Cerrar inicio formal</a
         >
       </ng-template>

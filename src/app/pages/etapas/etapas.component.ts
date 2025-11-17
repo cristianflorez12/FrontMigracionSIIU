@@ -9,6 +9,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
 import { ApiService } from '../../services/api.service';
+import { ProjectContextService } from '../../services/project-context.service';
+import { ActivatedRoute } from '@angular/router';
 import {
   FormsModule,
   FormBuilder,
@@ -52,13 +54,15 @@ export class EtapasComponent implements OnInit {
   private fb = inject(FormBuilder);
   private api = inject(ApiService);
   private cdr = inject(ChangeDetectorRef);
+  private route = inject(ActivatedRoute);
+  private projectContext = inject(ProjectContextService);
 
   etapas: Etapa[] = [];
   etapasForm!: FormGroup;
   isLoading = true;
   errorMessage = '';
   usandoMock = false;
-  projectId = '1';
+  projectId: string = '';
 
   private mockEtapas: Etapa[] = [
     {
@@ -91,10 +95,15 @@ export class EtapasComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.etapasForm = this.fb.group({
-      compromisos: this.fb.array([]),
+    this.route.params.subscribe((params) => {
+      this.projectId = params['projectId'] || '1';
+      this.projectContext.setProjectId(this.projectId);
+
+      this.etapasForm = this.fb.group({
+        compromisos: this.fb.array([]),
+      });
+      this.cargarEtapas();
     });
-    this.cargarEtapas();
   }
 
   private cargarEtapas(): void {

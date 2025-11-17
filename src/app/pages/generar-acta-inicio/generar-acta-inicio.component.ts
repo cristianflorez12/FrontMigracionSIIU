@@ -1,9 +1,17 @@
-import { Component, inject, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  ViewChild,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
+import { ProjectContextService } from '../../services/project-context.service';
 import { jsPDF } from 'jspdf';
 
 interface Proyecto {
@@ -27,9 +35,11 @@ interface Proyecto {
   templateUrl: './generar-acta-inicio.component.html',
   styleUrl: './generar-acta-inicio.component.scss',
 })
-export class GenerarActaInicioComponent {
+export class GenerarActaInicioComponent implements OnInit {
   private apiService = inject(ApiService);
   private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private projectContext = inject(ProjectContextService);
 
   @ViewChild('pdfContent') pdfContent!: ElementRef;
 
@@ -38,8 +48,15 @@ export class GenerarActaInicioComponent {
   errorMessage = '';
   usandoMock = false;
   proyecto: Proyecto | null = null;
-  projectId = '1';
+  projectId: string = '';
   now = new Date();
+
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.projectId = params['projectId'] || '1';
+      this.projectContext.setProjectId(this.projectId);
+    });
+  }
 
   private mockProyecto: Proyecto = {
     id: '1',

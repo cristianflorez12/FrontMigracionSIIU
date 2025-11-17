@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
 import { ApiService } from '../../services/api.service';
+import { ProjectContextService } from '../../services/project-context.service';
+import { ActivatedRoute } from '@angular/router';
 import {
   FormsModule,
   FormBuilder,
@@ -44,6 +46,8 @@ export class CompromisosComponent implements OnInit {
   private apiService = inject(ApiService);
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
+  private route = inject(ActivatedRoute);
+  private projectContext = inject(ProjectContextService);
 
   displayedColumns: string[] = ['descripcion', 'acciones', 'notas'];
 
@@ -52,7 +56,7 @@ export class CompromisosComponent implements OnInit {
   isLoading = true;
   errorMessage = '';
   usandoMock = false;
-  projectId = '1';
+  projectId: string = '';
 
   private mockCompromisos: Compromiso[] = [
     {
@@ -76,11 +80,16 @@ export class CompromisosComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.compromisosForm = this.fb.group({
-      compromisos: this.fb.array([]),
+    this.route.params.subscribe((params) => {
+      this.projectId = params['projectId'] || '1';
+      this.projectContext.setProjectId(this.projectId);
+
+      this.compromisosForm = this.fb.group({
+        compromisos: this.fb.array([]),
+      });
+      this.cargarCompromisos();
+      this.cdr.markForCheck();
     });
-    this.cargarCompromisos();
-    this.cdr.markForCheck();
   }
 
   private cargarCompromisos(): void {
