@@ -8,8 +8,9 @@ export const routes: Routes = [
         (m) => m.ProyectosComponent
       ),
   },
+
   {
-    path: 'proyecto/:projectId',
+    path: 'proyecto/:codigo',
     children: [
       {
         path: 'etapas',
@@ -39,6 +40,7 @@ export const routes: Routes = [
             (m) => m.EmpleadosSIIUComponent
           ),
       },
+
       {
         path: 'inicio-formal',
         loadComponent: () =>
@@ -46,6 +48,7 @@ export const routes: Routes = [
             (m) => m.InicioFormalComponent
           ),
       },
+
       {
         path: 'generar-acta-inicio',
         loadComponent: () =>

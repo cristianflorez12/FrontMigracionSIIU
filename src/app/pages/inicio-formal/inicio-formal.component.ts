@@ -1,21 +1,21 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatTableModule } from '@angular/material/table';
-import { ApiService } from '../../services/api.service';
 import {
-  FormsModule,
   FormBuilder,
   FormGroup,
-  Validators,
+  FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../../services/api.service';
 import { ProjectContextService } from '../../services/project-context.service';
+import { ZardAlertComponent } from '../../shared/components/alert/alert.component';
 
 export interface Proyecto {
   id?: string;
@@ -47,6 +47,7 @@ export interface Proyecto {
   styleUrls: ['./inicio-formal.component.scss'],
 })
 export class InicioFormalComponent implements OnInit {
+
   private fb = inject(FormBuilder);
   private api = inject(ApiService);
   private route = inject(ActivatedRoute);
@@ -56,7 +57,8 @@ export class InicioFormalComponent implements OnInit {
   isLoading = true;
   errorMessage = '';
   usandoMock = false;
-  projectId: string = '';
+
+  codigoProyecto: string = '';
 
   private mockProyecto: Proyecto = {
     id: '1',
@@ -80,8 +82,10 @@ export class InicioFormalComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.projectId = params['projectId'] || '1';
-      this.projectContext.setProjectId(this.projectId);
+
+      this.codigoProyecto = params['codigo'];
+
+      this.projectContext.setProjectId(this.codigoProyecto);
 
       this.initializeForm();
       this.cargarProyecto();
@@ -99,42 +103,59 @@ export class InicioFormalComponent implements OnInit {
   }
 
   private cargarProyecto(): void {
-    this.isLoading = true;
-    this.errorMessage = '';
-    this.usandoMock = false;
+  this.isLoading = true;
+  this.errorMessage = '';
+  this.usandoMock = false;
 
-    // Ajusta esta URL según tu backend - incluye el ID del proyecto
-    this.api.get<Proyecto>(`/api/proyectos/${this.projectId}`).subscribe({
-      next: (proyecto) => {
-        console.log('Proyecto cargado:', proyecto);
-        this.llenarFormulario(proyecto);
-        this.isLoading = false;
-        this.usandoMock = false;
-      },
-      error: (error) => {
-        console.error('Error al cargar el proyecto:', error);
-        console.warn('Cargando datos de prueba (mock)...');
-        this.llenarFormulario(this.mockProyecto);
-        this.errorMessage =
-          'No se pudo conectar al servidor. Mostrando datos de prueba.';
-        this.usandoMock = true;
-        this.isLoading = false;
-      },
-    });
-  }
+  this.api.get<any>(`/api/proyectos/${this.codigoProyecto}`).subscribe({
+    next: (proyecto) => {
+      console.log('Proyecto cargado:', proyecto);
+
+      // Adaptamos al formato del formulario
+      const proyectoAdaptado: Proyecto = {
+        codigoInterno: proyecto.codigo || '',
+        duracionProyecto: proyecto.duracion?.toString() || '',
+        fechaInicio: proyecto.fechaRegistro || '',
+        fechaFin: this.calcularFechaFin(proyecto.fechaRegistro, proyecto.duracion),
+        fechaAprobacion: proyecto.fechaAprobacionRechazo || ''
+      };
+
+      this.llenarFormulario(proyectoAdaptado);
+      this.isLoading = false;
+    },
+    error: (error) => {
+      console.error('Error al cargar:', error);
+      console.warn('Usando mock...');
+      this.llenarFormulario(this.mockProyecto);
+      this.errorMessage =
+        'No se pudo conectar al servidor. Mostrando datos de prueba.';
+      this.usandoMock = true;
+      this.isLoading = false;
+    },
+  });
+}
+
+  private calcularFechaFin(fechaInicio: string, duracionMeses: number): string {
+  if (!fechaInicio || !duracionMeses) return '';
+
+  const date = new Date(fechaInicio);
+  date.setMonth(date.getMonth() + duracionMeses);
+
+  // Pad ISO: yyyy-MM-dd
+  return date.toISOString().split('T')[0];
+}
 
   private llenarFormulario(proyecto: Proyecto): void {
-    this.InicioForm.patchValue({
-      codigoInterno: proyecto.codigoInterno || '',
-      duracionProyecto: proyecto.duracionProyecto || '',
-      fechaInicio: proyecto.fechaInicio || '',
-      fechaFin: proyecto.fechaFin || '',
-      fechaAprobacion: proyecto.fechaAprobacion || '',
-    });
+  this.InicioForm.patchValue({
+    codigoInterno: proyecto.codigoInterno || '',
+    duracionProyecto: proyecto.duracionProyecto || '',
+    fechaInicio: proyecto.fechaInicio || '',
+    fechaFin: proyecto.fechaFin || '',
+    fechaAprobacion: proyecto.fechaAprobacion || ''
+  });
 
-    // Guardar valores iniciales para el reset
-    this.initialValues = this.InicioForm.value;
-  }
+  this.initialValues = this.InicioForm.value;
+}
 
   onSubmit() {
     if (this.InicioForm.invalid) {
@@ -142,13 +163,18 @@ export class InicioFormalComponent implements OnInit {
       return;
     }
 
-    const body = this.InicioForm.value;
-    console.log('Formulario enviado:', body);
+    const payload = this.InicioForm.value;
+
+    console.log('Enviando datos:', payload);
+
     this.api
-      .post<{ success: boolean; message: string }>('/api/proyectos', body)
+      .post<{ success: boolean; message: string }>(
+        `/api/proyectos/${this.codigoProyecto}`,
+        payload
+      )
       .subscribe({
-        next: (data) => console.log('Respuesta del servidor:', data),
-        error: (err) => console.error('Error enviando proyectos:', err),
+        next: (data) => console.log('Respuesta servidor:', data),
+        error: (err) => console.error('Error:', err),
       });
   }
 
